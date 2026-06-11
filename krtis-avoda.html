@@ -1,0 +1,3164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>כרטיסי עבודה – סולן הדפסות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --press:#2d3561;--gold:#c9a84c;--gold-light:#e8d5a3;
+  --line:#d0c8b8;--danger:#c62828;--gray:#666;--tpl-bg:#f0f4ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Heebo',sans-serif;background:#e8e4dc;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,0,0,.04) 28px,rgba(0,0,0,.04) 29px);
+  min-height:100vh;color:#1a1a2e;}
+
+/* HEADER */
+header{background:var(--press);color:white;padding:13px 22px;display:flex;align-items:center;
+  justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,.3);position:sticky;top:0;z-index:100;}
+header h1{font-size:1.25rem;font-weight:900;}
+header h1 span{color:var(--gold);}
+
+/* TABS */
+.tabs{display:flex;background:#1a1a2e;padding:0 22px;overflow-x:auto;}
+.tab{padding:10px 16px;cursor:pointer;color:rgba(255,255,255,.5);font-weight:600;font-size:.85rem;
+  border-bottom:3px solid transparent;transition:all .2s;user-select:none;white-space:nowrap;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab:hover:not(.active){color:rgba(255,255,255,.8);}
+
+.main{max-width:960px;margin:0 auto;padding:22px 16px;}
+
+/* BUTTONS */
+.btn{padding:7px 15px;border:none;border-radius:6px;cursor:pointer;font-family:'Heebo',sans-serif;
+  font-weight:700;font-size:.84rem;transition:all .18s;}
+.btn-gold{background:var(--gold);color:#1a1a2e;}
+.btn-gold:hover{background:#b8933a;}
+.btn-outline-w{background:transparent;border:2px solid rgba(255,255,255,.35);color:white;}
+.btn-outline-w:hover{background:rgba(255,255,255,.1);}
+.btn-danger{background:var(--danger);color:white;}
+.btn-danger:hover{background:#a81e1e;}
+.btn-sm{padding:4px 10px;font-size:.76rem;}
+.btn-primary{background:var(--press);color:white;font-size:.95rem;padding:9px 24px;}
+.btn-primary:hover{background:#1e2545;}
+.btn-clear{background:#eee;color:var(--gray);padding:9px 16px;}
+.btn-clear:hover{background:#ddd;}
+.btn-tpl{background:var(--tpl-bg);color:var(--press);border:2px solid #c0ccf0;padding:9px 16px;}
+.btn-tpl:hover{background:#dde4ff;}
+
+/* ===== WEEKLY VIEW ===== */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+@media(max-width:700px){.week-grid{grid-template-columns:1fr;}}
+.day-col{background:white;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;}
+.day-header{background:var(--press);color:white;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
+.day-name{font-weight:900;font-size:.95rem;}
+.day-count{background:var(--gold);color:#1a1a2e;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;}
+.day-papers{padding:8px;}
+.paper-btn{width:100%;text-align:right;background:#f8f7ff;border:1.5px solid #dde3f8;border-radius:8px;
+  padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .15s;font-family:'Heebo',sans-serif;}
+.paper-btn:last-child{margin-bottom:0;}
+.paper-btn:hover{border-color:var(--press);background:var(--tpl-bg);}
+.paper-btn-name{font-weight:800;font-size:.9rem;color:var(--press);}
+.paper-btn-detail{font-size:.72rem;color:var(--gray);margin-top:2px;}
+.paper-pages{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
+.page-chip{padding:4px 10px;border-radius:20px;border:1.5px solid #c0ccf0;background:white;
+  color:var(--press);font-size:.78rem;font-weight:800;cursor:pointer;font-family:'Heebo',sans-serif;transition:all .15s;}
+.page-chip:hover{background:var(--press);color:white;border-color:var(--press);}
+.day-empty{color:#bbb;font-size:.82rem;padding:12px;text-align:center;}
+.add-paper-btn{width:100%;background:none;border:1.5px dashed #c0ccf0;border-radius:8px;
+  padding:8px;color:#aaa;font-family:'Heebo',sans-serif;font-size:.8rem;cursor:pointer;margin-top:4px;transition:all .15s;}
+.add-paper-btn:hover{border-color:var(--press);color:var(--press);}
+.pick-pages-btn{width:100%;margin-top:8px;padding:8px 10px;background:var(--press);color:white;
+  border:none;border-radius:7px;font-family:'Heebo',sans-serif;font-size:.82rem;font-weight:700;
+  cursor:pointer;transition:all .15s;}
+.pick-pages-btn:hover{background:#1e2545;}
+
+/* ===== FORM ===== */
+.card-form{background:white;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);overflow:hidden;}
+.card-form-header{background:var(--press);color:white;padding:15px 24px;display:flex;justify-content:space-between;align-items:center;}
+.card-form-header h2{font-size:1.1rem;font-weight:800;}
+.card-form-header span{color:var(--gold-light);font-size:.82rem;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.field{padding:12px 20px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);
+  display:flex;flex-direction:column;gap:5px;position:relative;}
+.field:nth-child(odd){border-left:none;}
+.field.full{grid-column:1/-1;border-left:none;}
+.field>label{font-size:.72rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;}
+input.fi,textarea.fi{font-family:'Heebo',sans-serif;font-size:.97rem;font-weight:500;
+  border:none;outline:none;background:transparent;color:#1a1a2e;width:100%;}
+input.fi::placeholder,textarea.fi::placeholder{color:#bbb;font-weight:400;}
+textarea.fi{resize:none;min-height:52px;}
+.color-opts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.color-opts label{display:flex;align-items:center;gap:5px;font-size:.88rem;color:#1a1a2e;
+  font-weight:500;cursor:pointer;text-transform:none;letter-spacing:0;}
+.color-opts input[type=radio]{width:16px;height:16px;cursor:pointer;accent-color:var(--press);flex-shrink:0;}
+.size-btn{padding:5px 13px;border:2px solid #c0ccf0;border-radius:6px;background:var(--tpl-bg);
+  color:var(--press);font-family:'Heebo',sans-serif;font-weight:800;font-size:.86rem;cursor:pointer;transition:all .15s;}
+.size-btn:hover,.size-btn.active{background:var(--press);color:white;border-color:var(--press);}
+.form-actions{padding:16px 20px;display:flex;gap:10px;justify-content:space-between;
+  align-items:center;border-top:2px solid var(--line);background:#fafaf8;flex-wrap:wrap;}
+.form-actions-right{display:flex;gap:10px;}
+
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative;width:100%;}
+.ac-list{position:absolute;top:calc(100% + 2px);right:0;left:0;background:white;
+  border:1.5px solid #c0ccf0;border-radius:0 0 8px 8px;z-index:200;
+  max-height:200px;overflow-y:auto;box-shadow:0 4px 14px rgba(0,0,0,.13);display:none;}
+.ac-list.open{display:block;}
+.ac-item{padding:9px 14px;cursor:pointer;font-size:.9rem;font-weight:500;border-bottom:1px solid #eee;}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover,.ac-item.focused{background:var(--tpl-bg);}
+.ac-item mark{background:var(--gold-light);border-radius:2px;font-weight:700;font-style:normal;}
+
+/* RUNS */
+.runs-box{background:#f0f7ff;border:2px solid #b8d4f8;border-radius:10px;padding:13px 16px;}
+.runs-box-title{font-size:.8rem;font-weight:800;color:var(--press);margin-bottom:9px;}
+.runs-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.runs-table th{background:var(--press);color:var(--gold-light);padding:6px 10px;text-align:right;font-weight:700;font-size:.72rem;}
+.runs-table td{padding:7px 10px;border-bottom:1px solid #d0e4f8;vertical-align:middle;}
+.runs-table tr:last-child td{border-bottom:none;}
+.runs-table tr:nth-child(even) td{background:#e8f2ff;}
+.mach-sel{font-family:'Heebo',sans-serif;font-size:.82rem;padding:4px 8px;border:1.5px solid #c0d8f0;
+  border-radius:5px;background:white;cursor:pointer;color:#1a1a2e;font-weight:600;}
+.runs-summary{margin-top:9px;font-size:.8rem;color:#444;display:flex;gap:12px;flex-wrap:wrap;}
+.runs-summary span{background:white;border:1px solid #c0d8f0;border-radius:6px;padding:3px 9px;}
+.runs-summary strong{color:var(--press);}
+
+/* SAVED CARDS */
+.cards-list{display:flex;flex-direction:column;gap:12px;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--gray);}
+.empty-state .icon{font-size:2.8rem;margin-bottom:10px;}
+.job-card{background:white;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden;}
+.jc-header{background:var(--press);color:white;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;}
+.jc-title{font-size:1rem;font-weight:800;}
+.jc-type{background:var(--gold);color:#1a1a2e;padding:2px 9px;border-radius:20px;font-size:.74rem;font-weight:700;}
+.jc-meta{padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-bottom:1px solid var(--line);}
+.jcf-label{font-size:.67rem;color:var(--gold);font-weight:700;}
+.jcf-val{font-size:.9rem;font-weight:600;}
+.jc-runs{padding:8px 16px;border-bottom:1px solid var(--line);display:flex;gap:7px;flex-wrap:wrap;}
+.run-chip{background:var(--tpl-bg);border:1px solid #c0ccf0;border-radius:6px;padding:4px 10px;font-size:.78rem;font-weight:600;}
+.jc-actions{padding:8px 16px;display:flex;gap:8px;justify-content:flex-end;background:#fafaf8;}
+.status-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.72rem;font-weight:700;}
+.status-pending{background:#fff3e0;color:#e65100;}
+.status-inprogress{background:#e3f2fd;color:#1565c0;}
+.status-done{background:#e8f5e9;color:#2e7d32;}
+
+/* NEWSPAPER MANAGEMENT */
+.paper-mgmt-list{display:flex;flex-direction:column;gap:10px;}
+.paper-mgmt-item{background:white;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;}
+.pmi-header{background:#f5f0e8;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
+.pmi-name{font-weight:800;font-size:.95rem;color:var(--press);}
+.pmi-day{font-size:.76rem;color:var(--gray);font-weight:600;}
+.pmi-body{padding:10px 16px;font-size:.82rem;color:#444;display:flex;gap:20px;flex-wrap:wrap;}
+.pmi-body span strong{color:var(--press);}
+.pmi-pages{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.pmi-page-tag{background:#e8f2ff;color:var(--press);border-radius:5px;padding:2px 8px;font-size:.76rem;font-weight:700;}
+
+/* PAPER MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:14px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3);}
+.modal{background:white;border-radius:14px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.3);}
+.modal-header{background:var(--press);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:14px 14px 0 0;}
+.modal-header h3{font-size:1.05rem;font-weight:800;}
+.modal-close{background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;line-height:1;}
+.modal-body{padding:18px 20px;}
+.modal-footer{padding:13px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.mg-field{display:flex;flex-direction:column;gap:4px;}
+.mg-field.full{grid-column:1/-1;}
+.mg-field label{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;}
+.mg-field input,.mg-field select,.mg-field textarea{font-family:'Heebo',sans-serif;font-size:.9rem;padding:8px 10px;
+  border:1.5px solid var(--line);border-radius:6px;outline:none;color:#1a1a2e;background:white;width:100%;}
+.mg-field input:focus,.mg-field select:focus{border-color:var(--press);}
+.pages-input-hint{font-size:.72rem;color:var(--gray);margin-top:3px;}
+
+/* RUNS MACHINE MODAL */
+.runs-modal-paper{background:var(--tpl-bg);border-bottom:2px solid #c0ccf0;padding:14px 20px;}
+.runs-modal-paper-name{font-size:1.1rem;font-weight:900;color:var(--press);}
+.runs-modal-paper-detail{font-size:.8rem;color:var(--gray);margin-top:2px;}
+.runs-modal-row{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--line);gap:12px;}
+.runs-modal-row:last-child{border-bottom:none;}
+.run-info{display:flex;flex-direction:column;gap:3px;flex:1;}
+.run-num{font-weight:900;font-size:1rem;color:var(--press);}
+.run-detail{font-size:.78rem;color:var(--gray);}
+.run-copies-badge{font-size:.88rem;font-weight:700;background:#e8f2ff;color:var(--press);
+  padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.run-mach-sel{font-family:'Heebo',sans-serif;font-size:.9rem;padding:8px 12px;
+  border:2px solid #c0d8f0;border-radius:7px;background:white;cursor:pointer;
+  color:#1a1a2e;font-weight:700;min-width:150px;}
+.run-mach-sel:focus{outline:none;border-color:var(--press);}
+
+/* INVENTORY */
+.inv-table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.inv-table th{background:var(--press);color:var(--gold-light);padding:9px 12px;text-align:right;font-size:.76rem;font-weight:800;}
+.inv-table td{padding:8px 12px;border-bottom:1px solid var(--line);font-size:.86rem;vertical-align:middle;}
+.inv-table tr:last-child td{border-bottom:none;}
+.inv-table tr:nth-child(even) td{background:#fafaf8;}
+.inv-qty{font-weight:800;color:var(--press);}
+.inv-qty.low{color:#c62828;}
+.inv-edit{padding:4px 7px;border:1.5px solid var(--line);border-radius:5px;font-family:'Heebo',sans-serif;font-size:.84rem;width:90px;text-align:left;outline:none;}
+.inv-edit:focus{border-color:var(--press);}
+.inv-name-edit{padding:4px 7px;border:1.5px solid var(--line);border-radius:5px;font-family:'Heebo',sans-serif;font-size:.84rem;width:100%;min-width:220px;outline:none;}
+.inv-name-edit:focus{border-color:var(--press);}
+.inv-inv-tag{display:inline-block;background:#e8f2ff;color:var(--press);border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:700;margin:1px;}
+.inv-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px;}
+.inv-summary-card{background:white;border-radius:8px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.inv-summary-name{font-size:.74rem;color:var(--gray);font-weight:600;margin-bottom:3px;}
+.inv-summary-qty{font-size:.98rem;font-weight:800;color:var(--press);}
+.inv-summary-val{font-size:.8rem;color:#2e7d32;font-weight:700;margin-top:2px;}
+.inv-total-card{background:var(--press);color:white;border-radius:8px;padding:12px 16px;grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;}
+.inv-total-card .lbl{color:var(--gold-light);font-size:.82rem;font-weight:700;}
+.inv-total-card .val{font-size:1.3rem;font-weight:900;color:white;}
+/* INV SUB-TABS */
+.inv-subtab{background:none;border:none;border-bottom:3px solid transparent;padding:8px 16px;font-family:'Heebo',sans-serif;font-size:.9rem;font-weight:700;color:var(--gray);cursor:pointer;margin-bottom:-2px;transition:all .18s;}
+.inv-subtab.active{color:var(--press);border-bottom-color:var(--press);}
+.emp-tab{background:#f5f5f5;border:1.5px solid #ddd;border-radius:20px;padding:5px 14px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Heebo',sans-serif;color:#555;transition:all .15s;}
+.emp-tab.active{background:var(--press);color:#fff;border-color:var(--press);}
+.emp-tab:hover:not(.active){border-color:var(--press);color:var(--press);}
+.inv-subtab:hover{color:var(--press);}
+.inv-min-badge{display:inline-block;background:#fff3e0;color:#e65100;border-radius:4px;padding:2px 7px;font-size:.72rem;font-weight:800;margin-right:4px;}
+.inv-min-low{color:#c62828 !important;}
+/* DEDUCT MODAL */
+.inv-paper-header{background:var(--tpl-bg);border-bottom:2px solid #c0ccf0;padding:14px 20px;}
+.inv-paper-name{font-size:1rem;font-weight:800;color:var(--press);}
+.inv-paper-stock{font-size:.82rem;color:var(--gray);margin-top:3px;}
+.inv-run-row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap;}
+.inv-run-info{font-size:.9rem;font-weight:700;}
+.inv-run-sub{font-size:.76rem;color:var(--gray);}
+.inv-sheets-badge{background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:.88rem;font-weight:800;white-space:nowrap;}
+.inv-total-row{background:#f5f0e8;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid #ccc;}
+.inv-total-label{font-weight:800;color:var(--press);}
+.inv-total-val{font-size:1.1rem;font-weight:900;color:var(--press);}
+.inv-match-row{padding:12px 20px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);flex-wrap:wrap;}
+.inv-match-sel{flex:1;min-width:180px;font-family:'Heebo',sans-serif;font-size:.9rem;padding:8px 10px;border:2px solid #c0d8f0;border-radius:7px;background:white;cursor:pointer;font-weight:600;outline:none;}
+/* DELIVERY MODAL */
+.del-item-row{padding:12px 0;border-bottom:1px solid var(--line);}
+.del-item-row:last-child{border-bottom:none;}
+.del-item-name{font-weight:700;font-size:.9rem;color:var(--press);margin-bottom:4px;}
+.del-item-meta{font-size:.78rem;color:var(--gray);margin-bottom:6px;}
+.del-item-qty{font-weight:800;color:#2e7d32;font-size:.95rem;}
+.del-match-sel{font-family:'Heebo',sans-serif;font-size:.84rem;padding:6px 8px;border:1.5px solid #c0d8f0;border-radius:6px;background:white;cursor:pointer;width:100%;margin-top:6px;}
+
+/* PRINT MODAL */
+.print-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;
+  align-items:center;justify-content:center;padding:16px;}
+.print-modal-overlay.open{display:flex;}
+.print-modal{background:#f0ebe0;border-radius:8px;width:100%;max-width:700px;max-height:95vh;
+  overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,.5);}
+.print-modal-bar{background:var(--press);color:white;padding:11px 18px;display:flex;
+  justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;}
+.print-modal-bar h3{font-size:.95rem;font-weight:800;}
+.pma{display:flex;gap:9px;}
+.print-card-wrap{padding:18px;}
+
+/* THE PRINT CARD */
+.print-card{background:white;border:2.5px solid #333;direction:rtl;font-family:'Heebo',sans-serif;}
+.pc-title{background:#2d3561;color:white;padding:13px 18px;text-align:center;}
+.pc-title h2{font-size:1.35rem;font-weight:900;letter-spacing:.4px;}
+.pc-title small{color:#e8d5a3;font-size:.76rem;}
+.pc-row{display:flex;align-items:stretch;border-bottom:1.5px solid #ccc;min-height:36px;}
+.pc-row:last-child{border-bottom:none;}
+.pc-row-tall{min-height:58px;}
+.pc-label{width:155px;min-width:155px;background:#f5f0e8;border-left:1.5px solid #ccc;
+  padding:8px 13px;font-size:.8rem;font-weight:800;color:#2d3561;display:flex;align-items:center;}
+.pc-value{flex:1;padding:8px 15px;font-size:.98rem;font-weight:700;color:#111;display:flex;align-items:center;}
+.pc-runs-header{background:#2d3561;color:#e8d5a3;padding:7px 15px;font-size:.78rem;font-weight:800;letter-spacing:.3px;}
+.pc-runs-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.pc-runs-table th{background:#f5f0e8;color:#2d3561;padding:6px 11px;text-align:right;font-size:.71rem;font-weight:800;border-bottom:1.5px solid #ccc;}
+.pc-runs-table td{padding:8px 11px;border-bottom:1px solid #e0d8cc;font-weight:600;}
+.pc-runs-table tr:nth-child(even) td{background:#fafaf5;}
+.pc-runs-table tr:last-child td{border-bottom:none;}
+.pc-footer{background:#f5f0e8;padding:6px 15px;display:flex;justify-content:space-between;font-size:.7rem;color:#888;border-top:1.5px solid #ccc;}
+
+/* INVENTORY */
+.inv-table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.inv-table th{background:var(--press);color:var(--gold-light);padding:10px 14px;text-align:right;font-size:.78rem;font-weight:800;}
+.inv-table td{padding:10px 14px;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:middle;}
+.inv-table tr:last-child td{border-bottom:none;}
+.inv-table tr:nth-child(even) td{background:#fafaf8;}
+.inv-table tr:hover td{background:#f0f4ff;}
+.inv-qty{font-weight:800;font-size:1rem;color:var(--press);}
+.inv-qty.low{color:#c62828;}
+.inv-qty.ok{color:#2e7d32;}
+.inv-edit{padding:4px 8px;border:1.5px solid var(--line);border-radius:5px;font-family:'Heebo',sans-serif;font-size:.88rem;width:100px;text-align:left;outline:none;}
+.inv-edit:focus{border-color:var(--press);}
+.inv-name-edit{padding:4px 8px;border:1.5px solid var(--line);border-radius:5px;font-family:'Heebo',sans-serif;font-size:.88rem;width:100%;outline:none;}
+.inv-name-edit:focus{border-color:var(--press);}
+
+/* INV DEDUCT MODAL */
+.inv-paper-header{background:var(--tpl-bg);border-bottom:2px solid #c0ccf0;padding:14px 20px;}
+.inv-paper-name{font-size:1rem;font-weight:800;color:var(--press);}
+.inv-paper-stock{font-size:.82rem;color:var(--gray);margin-top:3px;}
+.inv-run-row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap;}
+.inv-run-row:last-child{border-bottom:none;}
+.inv-run-info{font-size:.9rem;font-weight:700;color:#1a1a2e;}
+.inv-run-sub{font-size:.76rem;color:var(--gray);}
+.inv-sheets-badge{background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:.88rem;font-weight:800;white-space:nowrap;}
+.inv-total-row{background:#f5f0e8;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid #ccc;}
+.inv-total-label{font-weight:800;color:var(--press);}
+.inv-total-val{font-size:1.1rem;font-weight:900;color:var(--press);}
+.inv-match-row{padding:12px 20px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);}
+.inv-match-sel{flex:1;font-family:'Heebo',sans-serif;font-size:.9rem;padding:8px 10px;border:2px solid #c0d8f0;border-radius:7px;background:white;cursor:pointer;font-weight:600;outline:none;}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--press);color:white;padding:10px 20px;border-radius:8px;font-weight:600;
+  z-index:999;transition:transform .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="module">
+import { initializeApp }                             from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getDatabase, ref, set, onValue, get, off } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+window._fbInit = cfg => {
+  const app = initializeApp(cfg, 'solan');
+  const db  = getDatabase(app);
+  window._fbDB = db; window._fbRef = ref; window._fbSet = set;
+  window._fbOnValue = onValue; window._fbOff = off;
+  return db;
+};
+</script>
+</head>
+<body>
+
+<header>
+  <h1>🖨️ כרטיסי עבודה <span>סולן הדפסות</span></h1>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span id="fb-status" style="font-size:.72rem;padding:3px 10px;border-radius:20px;font-weight:700;display:none"></span>
+    <button class="btn btn-outline-w" onclick="switchTab('papers')">📰 ניהול עיתונים</button>
+    <button class="btn btn-outline-w" onclick="openSettings()">⚙️ הגדרות</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('week')"  id="tab-week">📅 יומן שבועי</div>
+  <div class="tab"        onclick="switchTab('new')"   id="tab-new">➕ כרטיס חדש</div>
+  <div class="tab"        onclick="switchTab('saved')" id="tab-saved">📋 כרטיסים <span id="count-badge"></span></div>
+  <div class="tab"        onclick="switchTab('papers')" id="tab-papers">📰 עיתונים</div>
+  <div class="tab"        onclick="switchTab('inventory')" id="tab-inventory">📦 מלאי</div>
+  <div class="tab"        onclick="switchTab('quotes')"    id="tab-quotes">💰 הצעות מחיר</div>
+</div>
+
+<div class="main">
+
+<!-- ===== WEEKLY VIEW ===== -->
+<div id="view-week">
+  <div class="week-grid" id="week-grid"></div>
+</div>
+
+<!-- ===== NEW CARD ===== -->
+<div id="view-new" style="display:none">
+  <div class="card-form">
+    <div class="card-form-header">
+      <h2 id="form-title">יצירת כרטיס עבודה חדש</h2>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span>מלא פרטים או בחר מהיומן השבועי</span>
+        <button class="btn btn-clear" onclick="clearForm()" style="margin-right:auto">נקה</button>
+      </div>
+    </div>
+    <div class="form-grid">
+
+      <div class="field">
+        <label>שם העבודה</label>
+        <div class="ac-wrap">
+          <input class="fi" type="text" id="f-name" placeholder="שם הפרויקט / לקוח" autocomplete="off"
+            oninput="acInput(this,'ac-name',acSugg('f-name',this.value))" onfocus="acInput(this,'ac-name',acSugg('f-name',this.value))" onblur="acDelay('ac-name')">
+          <div class="ac-list" id="ac-name"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>סוג עבודה</label>
+        <div class="ac-wrap">
+          <input class="fi" type="text" id="f-type" placeholder="עיתון / עלון..." autocomplete="off"
+            oninput="acInput(this,'ac-type',acSugg('f-type',this.value))" onfocus="acInput(this,'ac-type',acSugg('f-type',this.value))" onblur="acDelay('ac-type')">
+          <div class="ac-list" id="ac-type"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>תאריך הזמנה</label>
+        <input class="fi" type="date" id="f-order-date">
+      </div>
+      <div class="field">
+        <label>מועד אספקה</label>
+        <input class="fi" type="date" id="f-delivery-date">
+      </div>
+
+      <div class="field">
+        <label>גודל סופי</label>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button type="button" class="size-btn" onclick="pickSize('16.5×24')">16.5×24</button>
+            <button type="button" class="size-btn" onclick="pickSize('A5')">A5</button>
+            <button type="button" class="size-btn" onclick="pickSize('A4')">A4</button>
+            <button type="button" class="size-btn" onclick="pickSize('פוסטר גיליון')">פוסטר גיליון</button>
+            <button type="button" class="size-btn" onclick="pickSize('פוסטר חצי גיליון')">פוסטר ½ גיליון</button>
+            <button type="button" class="size-btn" onclick="pickSize('A3 קיפול ל-A4')">A3 קיפול ל-A4</button>
+            <button type="button" class="size-btn" onclick="pickSize('פלייסמנטים')">פלייסמנטים</button>
+          </div>
+          <input class="fi" type="text" id="f-size" placeholder='או גודל אחר...' autocomplete="off"
+            oninput="calcRuns()" onchange="calcRuns()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>סוג נייר</label>
+        <div class="ac-wrap">
+          <input class="fi" type="text" id="f-paper" placeholder='כרומו מט 80 גר...' autocomplete="off"
+            oninput="acInput(this,'ac-paper',acSugg('f-paper',this.value))" onfocus="acInput(this,'ac-paper',acSugg('f-paper',this.value))" onblur="acDelay('ac-paper')">
+          <div class="ac-list" id="ac-paper"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>מס' עותקים</label>
+        <input class="fi" type="number" id="f-copies" placeholder="5000" min="1" oninput="calcRuns()">
+      </div>
+      <div class="field">
+        <label>מס' עמודים</label>
+        <input class="fi" type="number" id="f-pages" placeholder="32" min="1" oninput="calcRuns()">
+      </div>
+
+      <div class="field" id="machine-field">
+        <label>מכונה</label>
+        <select class="fi" id="f-machine">
+          <option value="">-- בחר מכונה --</option>
+          <option value="מכונה 4 צבעים">מכונה 4 צבעים</option>
+          <option value="מכונה 8 צבעים">מכונה 8 צבעים</option>
+          <option value="פורמט גדול">פורמט גדול</option>
+        </select>
+      </div>
+
+      <div class="field full" id="runs-field" style="display:none">
+        <label>פירוט ריצות — בחר מכונה לכל ריצה</label>
+        <div id="runs-output" style="margin-top:6px"></div>
+      </div>
+
+      <div class="field full">
+        <label>צבע</label>
+        <div class="color-opts">
+          <label><input type="radio" name="color" value="פרוצס צד אחד"> פרוצס צד אחד</label>
+          <label><input type="radio" name="color" value="פרוצס 2 צדדים"> פרוצס 2 צדדים</label>
+          <label><input type="radio" name="color" value="שחור לבן"> שחור לבן</label>
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>הערות</label>
+        <textarea class="fi" id="f-notes" placeholder="כריכה, לכה, קיפול..."></textarea>
+      </div>
+
+      <div class="field full" id="manual-runs-field">
+        <label>ריצות ידניות <span style="font-weight:400;text-transform:none;font-size:.78rem;color:#aaa">(אם אין חישוב אוטומטי, או להוסיף בעצמך)</span></label>
+        <div id="manual-runs-list" style="display:flex;flex-direction:column;gap:8px;margin-top:6px"></div>
+        <button type="button" onclick="addManualRun()" style="margin-top:8px;padding:7px 14px;background:var(--tpl-bg);border:1.5px dashed #c0ccf0;border-radius:7px;color:var(--press);font-family:'Heebo',sans-serif;font-weight:700;font-size:.84rem;cursor:pointer;text-align:right">+ הוסף ריצה</button>
+      </div>
+
+    </div>
+    <div class="form-actions" style="justify-content:flex-end">
+      <button class="btn btn-tpl" onclick="previewCard()">👁️ תצוגה מקדימה</button>
+      <button class="btn btn-primary" onclick="saveCard()">💾 שמור כרטיס</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SAVED CARDS ===== -->
+<div id="view-saved" style="display:none">
+  <div id="cards-container" class="cards-list"></div>
+</div>
+
+<!-- ===== NEWSPAPER MANAGEMENT ===== -->
+<div id="view-papers" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h2 style="font-size:1.1rem;font-weight:800;color:var(--press)">📰 רשימת עיתונים</h2>
+    <button class="btn btn-primary" onclick="openPaperModal()">+ הוסף עיתון</button>
+  </div>
+  <div id="paper-mgmt-list" class="paper-mgmt-list"></div>
+</div>
+
+<!-- ===== QUOTES ===== -->
+<div id="view-quotes" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <h2 style="margin:0;font-size:1.3rem;color:var(--press)">💰 הצעות מחיר והזמנות</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-clear" onclick="openCustomersModal()" style="font-size:.82rem">👥 לקוחות</button>
+      <button class="btn btn-tpl" onclick="openQuoteForm('quote')">+ הצעת מחיר</button>
+      <button class="btn btn-primary" onclick="openQuoteForm('order')">+ הזמנה</button>
+    </div>
+  </div>
+   <!-- employee filter tabs -->
+  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="emp-tabs">
+    <button class="emp-tab active" onclick="setEmpFilter('')" data-emp="">👥 כולם</button>
+    <button class="emp-tab" onclick="setEmpFilter('חיים לווין')" data-emp="חיים לווין">👤 חיים לווין</button>
+    <button class="emp-tab" onclick="setEmpFilter('אמיר')" data-emp="אמיר">👤 אמיר</button>
+    <button class="emp-tab" onclick="setEmpFilter('איציק')" data-emp="איציק">👤 איציק</button>
+  </div>
+  <div id="quotes-list"></div>
+</div>
+
+<!-- ===== CUSTOMERS MODAL ===== -->
+<div class="modal-overlay" id="customers-modal">
+  <div class="modal-box" style="max-width:680px;width:95vw">
+    <div class="modal-header">
+      <span>👥 ניהול לקוחות</span>
+      <button class="modal-close" onclick="document.getElementById('customers-modal').classList.remove('open')">✕</button>
+    </div>
+    <div style="padding:18px 20px;overflow-y:auto;max-height:72vh">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="openAddCustomerForm()" style="font-size:.82rem">+ לקוח חדש</button>
+        <label class="btn btn-tpl" style="font-size:.82rem;cursor:pointer">
+          📂 ייבוא מאקסל
+          <input type="file" id="customer-xlsx-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="importCustomersFromExcel(this)">
+        </label>
+        <div style="font-size:.72rem;color:#aaa;align-self:center">עמודות: שם, מייל, טלפון, כתובת</div>
+      </div>
+      <!-- add/edit form -->
+      <div id="customer-form" style="display:none;background:#f8f9ff;border-radius:8px;padding:14px;margin-bottom:14px">
+        <div style="font-size:.8rem;font-weight:700;color:var(--press);margin-bottom:10px" id="customer-form-title">לקוח חדש</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:.7rem;color:#777">שם *</label><input class="fi" id="cf-name" placeholder="שם / חברה" style="margin-top:3px"></div>
+          <div><label style="font-size:.7rem;color:#777">אימייל</label><input class="fi" id="cf-email" type="email" placeholder="email@example.com" style="margin-top:3px"></div>
+          <div><label style="font-size:.7rem;color:#777">טלפון</label><input class="fi" id="cf-phone" placeholder="050-0000000" style="margin-top:3px"></div>
+          <div><label style="font-size:.7rem;color:#777">כתובת</label><input class="fi" id="cf-address" placeholder="רחוב, עיר" style="margin-top:3px"></div>
+        </div>
+        <input type="hidden" id="cf-id">
+        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+          <button class="btn btn-clear" onclick="document.getElementById('customer-form').style.display='none'" style="font-size:.8rem">ביטול</button>
+          <button class="btn btn-primary" onclick="saveCustomer()" style="font-size:.8rem">💾 שמור</button>
+        </div>
+      </div>
+      <div id="customers-list-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUOTE FORM MODAL ===== -->
+<div class="modal-overlay" id="quote-modal">
+  <div class="modal-box" style="max-width:700px;width:95vw">
+    <div class="modal-header">
+      <span id="quote-modal-title">הצעת מחיר חדשה</span>
+      <button class="modal-close" onclick="closeQuoteModal()">✕</button>
+    </div>
+    <div style="padding:20px;overflow-y:auto;max-height:75vh">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div style="position:relative">
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">לכבוד (לקוח)</label>
+          <input class="fi" id="q-customer" placeholder="שם הלקוח / חברה" style="margin-top:4px"
+            autocomplete="off" oninput="filterCustomerAC(this.value)" onfocus="filterCustomerAC(this.value)" onblur="setTimeout(()=>hideCustomerAC(),180)">
+          <div id="q-customer-ac" style="display:none;position:absolute;z-index:200;background:#fff;border:1.5px solid var(--gold);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);max-height:200px;overflow-y:auto;width:100%;top:100%;margin-top:2px"></div>
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">אימייל לקוח</label>
+          <input class="fi" id="q-customer-email" placeholder="email@example.com" type="email" style="margin-top:4px">
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">תאריך</label>
+          <input class="fi" type="date" id="q-date" style="margin-top:4px">
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">עובד אחראי</label>
+          <select class="fi" id="q-employee" style="margin-top:4px">
+            <option value="">— בחר עובד —</option>
+            <option value="חיים לווין">חיים לווין</option>
+            <option value="אמיר">אמיר</option>
+            <option value="איציק">איציק</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">מספר מסמך</label>
+          <input class="fi" id="q-docnum" placeholder="אוטומטי" style="margin-top:4px">
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:700;color:var(--gold)">הערות</label>
+          <input class="fi" id="q-notes" placeholder="הערות נוספות..." style="margin-top:4px">
+        </div>
+      </div>
+
+      <div style="font-size:.78rem;font-weight:700;color:var(--press);margin-bottom:8px">פירוט שירותים / מוצרים</div>
+      <div id="q-items-wrap"></div>
+      <button onclick="addQuoteItem()" style="width:100%;padding:8px;border:1.5px dashed #c0ccf0;border-radius:7px;
+        background:none;color:#aaa;font-family:Heebo,sans-serif;font-size:.82rem;cursor:pointer;margin-bottom:14px"
+        onmouseover="this.style.borderColor='var(--press)';this.style.color='var(--press)'"
+        onmouseout="this.style.borderColor='#c0ccf0';this.style.color='#aaa'">+ הוסף שורה</button>
+
+      <div style="background:#f8f9ff;border-radius:8px;padding:12px 16px;font-size:.88rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="color:#555">סה"כ לפני מע"מ:</span>
+          <strong id="q-subtotal">₪0</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+          <span style="color:#555;display:flex;align-items:center;gap:6px">
+            מע"מ
+            <input type="number" id="q-vat-pct" value="18" min="0" max="100" step="1"
+              style="width:48px;padding:2px 6px;border:1px solid #ccc;border-radius:4px;font-family:Heebo;font-size:.84rem;text-align:center"
+              oninput="calcQuoteTotals()">%:
+          </span>
+          <strong id="q-vat-amt">₪0</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #dde3f8;padding-top:8px;margin-top:4px">
+          <span style="font-weight:900;color:var(--press)">סה"כ לתשלום:</span>
+          <strong style="font-size:1.1rem;color:var(--press)" id="q-total">₪0</strong>
+        </div>
+      </div>
+    </div>
+    <div style="padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn btn-clear" onclick="closeQuoteModal()">ביטול</button>
+      <button class="btn btn-tpl" onclick="saveAndPreviewQuote()">👁️ תצוגה מקדימה</button>
+      <button class="btn btn-tpl" onclick="saveAndSendQuote()" style="background:#1a3a6b;color:#fff;border-color:#1a3a6b">⬇️📧 הורד ושלח</button>
+      <button class="btn btn-primary" onclick="saveQuote()">💾 שמור</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUOTE PRINT MODAL ===== -->
+<div class="modal-overlay" id="quote-print-modal">
+  <div class="modal-box" style="max-width:800px;width:96vw;padding:0">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)">
+      <span style="font-weight:700;color:var(--press)" id="qpm-title">תצוגה מקדימה</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" onclick="downloadAndEmailQuoteDoc()" id="qpm-dl-btn" style="font-size:.82rem">⬇️📧 הורד ושלח במייל</button>
+        <button class="btn btn-tpl" onclick="printQuoteDoc()" style="font-size:.82rem">🖨️ הדפס</button>
+        <button class="modal-close" style="color:#555;font-size:1.3rem" onclick="document.getElementById('quote-print-modal').classList.remove('open')">✕</button>
+      </div>
+    </div>
+    <div id="quote-print-body" style="padding:30px;overflow-y:auto;max-height:80vh"></div>
+  </div>
+</div>
+
+<!-- ===== INVENTORY ===== -->
+<div id="view-inventory" style="display:none">
+
+  <!-- sub-tabs -->
+  <div style="display:flex;gap:6px;margin-bottom:18px;border-bottom:2px solid var(--line);padding-bottom:0">
+    <button id="invtab-warehouse" class="inv-subtab active" onclick="switchInvTab('warehouse')">🏭 מלאי רונימאר</button>
+    <button id="invtab-press"     class="inv-subtab"        onclick="switchInvTab('press')">🖨️ מלאי בדפוס</button>
+    <button id="invtab-logs"      class="inv-subtab"        onclick="switchInvTab('logs')">📋 היסטוריית מסמכים</button>
+  </div>
+
+  <!-- ===== מחסן רונימאר ===== -->
+  <div id="inv-section-warehouse">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <h2 style="font-size:1rem;font-weight:800;color:var(--press)">🏭 מלאי במחסן רונימאר</h2>
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+        <label class="btn btn-tpl" style="cursor:pointer" title="טען קובץ xlsb/xlsx חודשי">
+          📥 עדכון חודשי (xlsb)
+          <input type="file" accept=".xlsb,.xlsx,.xls" onchange="loadInventoryXlsb(this)" style="display:none">
+        </label>
+        <button class="btn btn-tpl" onclick="cleanupDoc171Once()" title="מזג שורות כפולות עם אותו תאריך" style="font-size:.8rem">🔧 מזג כפילויות</button>
+        <label class="btn btn-tpl" style="cursor:pointer" title="העלה חשבונית או תעודת משלוח — תנותח ב-AI ותעדכן מחיר וכמות">
+          📄 חשבונית / תעודה
+          <input type="file" accept="image/*,.pdf" onchange="loadDeliveryDoc(this)" style="display:none">
+        </label>
+        <label class="btn btn-gold" style="cursor:pointer;font-weight:800">
+          📷 צלם חשבונית
+          <input type="file" accept="image/*" capture="environment" onchange="loadDeliveryDoc(this)" style="display:none">
+        </label>
+        <button class="btn btn-tpl" onclick="printInventoryWarehouse()" title="הדפס פירוט מלאי">🖨️ הדפסה</button>
+        <button class="btn btn-primary" onclick="addInventoryItem()">+ הוסף שורה</button>
+      </div>
+    </div>
+    <div id="inv-summary-wrap" style="margin-bottom:14px"></div>
+    <div id="inventory-table-wrap"></div>
+  </div>
+
+  <!-- ===== מלאי בדפוס ===== -->
+  <div id="inv-section-press" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <h2 style="font-size:1rem;font-weight:800;color:var(--press)">🖨️ מלאי בדפוס</h2>
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+        <label class="btn btn-tpl" style="cursor:pointer" title="טען קובץ Excel">
+          📥 ייבוא Excel
+          <input type="file" accept=".xlsx,.xls,.xlsb" onchange="loadInventoryPressXlsx(this)" style="display:none">
+        </label>
+        <button class="btn btn-primary" onclick="addInventoryPressItem()">+ הוסף שורה</button>
+      </div>
+    </div>
+    <div id="inv-press-summary-wrap" style="margin-bottom:14px"></div>
+    <div id="inventory-press-table-wrap"></div>
+  </div>
+
+  <!-- ===== היסטוריית מסמכים ===== -->
+  <div id="inv-section-logs" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <h2 style="font-size:1rem;font-weight:800;color:var(--press)">📋 חשבוניות ותעודות משלוח</h2>
+    </div>
+    <div id="invoice-logs-wrap"></div>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<!-- ===== DELIVERY DOC MODAL ===== -->
+<div class="modal-overlay" id="delivery-modal">
+  <div class="modal" style="max-width:860px;width:98vw">
+    <div class="modal-header">
+      <h3>📄 תעודת משלוח / חשבונית</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="del-btn-manual" class="btn btn-sm btn-tpl" onclick="switchToManual()" style="display:none">✏️ מילוי ידני</button>
+        <button id="del-btn-ai"     class="btn btn-sm btn-gold" onclick="retryAI()"       style="display:none">🤖 נסה AI שוב</button>
+        <button class="modal-close" onclick="closeDeliveryModal()">×</button>
+      </div>
+    </div>
+    <div style="display:flex;max-height:78vh;overflow:hidden">
+      <div id="del-doc-preview" style="display:none;width:42%;min-width:200px;border-left:2px solid #e0d8cc;
+        overflow-y:auto;background:#f9f6f0;padding:10px;flex-shrink:0"></div>
+      <div id="del-form-area" style="flex:1;overflow-y:auto">
+        <div id="delivery-modal-body" style="padding:18px 20px">
+          <div style="text-align:center;padding:30px;color:#aaa">🔍 קורא מסמך...</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <button class="btn btn-clear" onclick="closeDeliveryModal()">ביטול</button>
+      <label id="delivery-price-only-wrap" style="display:none;align-items:center;gap:7px;font-size:.84rem;font-weight:700;color:var(--press);cursor:pointer">
+        <input type="checkbox" id="delivery-price-only" style="width:16px;height:16px;cursor:pointer">
+        מחיר בלבד (אל תעדכן כמות)
+      </label>
+      <button class="btn btn-primary" id="delivery-confirm-btn" onclick="confirmDelivery()" style="display:none">✅ הוסף למלאי</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INVENTORY DEDUCT MODAL ===== -->
+<div class="modal-overlay" id="inv-modal">
+  <div class="modal" style="max-width:540px">
+    <div class="modal-header">
+      <h3>🖨️ הורדה ממלאי בדפוס</h3>
+      <button class="modal-close" onclick="closeInvModal()">×</button>
+    </div>
+    <div class="modal-body" id="inv-modal-body" style="padding:0"></div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn btn-clear" onclick="closeInvModal()">דלג</button>
+      <button class="btn btn-primary" onclick="confirmDeduct()">✅ הורד מהמלאי</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RUNS MACHINE MODAL ===== -->
+<div class="modal-overlay" id="runs-modal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <h3 id="runs-modal-title">🔢 ריצות הדפסה</h3>
+      <button class="modal-close" onclick="closeRunsModal()">×</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <div id="runs-modal-body"></div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn btn-clear" onclick="closeRunsModal()">ביטול</button>
+      <div style="display:flex;gap:9px">
+        <button class="btn btn-tpl" onclick="previewFromRunsModal()">👁️ תצוגה מקדימה</button>
+        <button class="btn btn-primary" onclick="confirmRunsAndSave()">💾 שמור כרטיס</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NEWSPAPER MODAL ===== -->
+<div class="modal-overlay" id="paper-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="paper-modal-title">📰 הוסף עיתון</h3>
+      <button class="modal-close" onclick="closePaperModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="mg">
+        <div class="mg-field full">
+          <label>שם העיתון</label>
+          <input type="text" id="pm-name" placeholder="עיתון השבועון">
+        </div>
+        <div class="mg-field">
+          <label>יום בשבוע</label>
+          <select id="pm-day">
+            <option value="ראשון">ראשון</option>
+            <option value="שני">שני</option>
+            <option value="שלישי">שלישי</option>
+            <option value="רביעי">רביעי</option>
+            <option value="חמישי">חמישי</option>
+            <option value="שישי">שישי</option>
+            <option value="שבת">שבת</option>
+          </select>
+        </div>
+        <div class="mg-field">
+          <label>סוג עבודה</label>
+          <input type="text" id="pm-type" placeholder="עיתון" value="עיתון">
+        </div>
+        <div class="mg-field">
+          <label>גודל סופי</label>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <button type="button" class="size-btn" onclick="pmPickSize('16.5×24')" id="pms1">16.5×24</button>
+            <button type="button" class="size-btn" onclick="pmPickSize('A5')" id="pms3">A5</button>
+            <button type="button" class="size-btn" onclick="pmPickSize('A4')" id="pms2">A4</button>
+            <input type="text" id="pm-size" placeholder="אחר..." style="font-family:Heebo,sans-serif;font-size:.88rem;padding:5px 8px;border:1.5px solid var(--line);border-radius:6px;width:90px;outline:none;">
+          </div>
+        </div>
+        <div class="mg-field">
+          <label>סוג נייר</label>
+          <input type="text" id="pm-paper" placeholder="כרומו מט 80 גר">
+        </div>
+        <div class="mg-field">
+          <label>כמות עותקים (קבועה)</label>
+          <input type="number" id="pm-copies" placeholder="13200">
+        </div>
+        <div class="mg-field">
+          <label>צבע</label>
+          <select id="pm-color">
+            <option value="פרוצס 2 צדדים">פרוצס 2 צדדים</option>
+            <option value="פרוצס צד אחד">פרוצס צד אחד</option>
+            <option value="שחור לבן">שחור לבן</option>
+          </select>
+        </div>
+        <div class="mg-field full">
+          <label>אפשרויות עמודים (מופרד בפסיק)</label>
+          <input type="text" id="pm-pages" placeholder="64,80,96,112,128,144,160">
+          <div class="pages-input-hint">הזן את כל האפשרויות, לדוגמא: 64,80,96,112,128</div>
+        </div>
+        <div class="mg-field full">
+          <label>הערות קבועות</label>
+          <input type="text" id="pm-notes" placeholder="כריכת סיכות...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-clear" onclick="closePaperModal()">סגור</button>
+      <button class="btn btn-primary" onclick="savePaper()">💾 שמור עיתון</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRINT MODAL ===== -->
+<div class="print-modal-overlay" id="print-modal">
+  <div class="print-modal">
+    <div class="print-modal-bar">
+      <h3>🖨️ כרטיס עבודה</h3>
+      <div class="pma">
+        <button class="btn btn-gold" onclick="doPrint()">🖨️ הדפס</button>
+        <button class="btn btn-primary" id="print-modal-save-btn" onclick="saveFromPreview()" style="display:none">💾 שמור כרטיס</button>
+        <button class="btn btn-outline-w" onclick="closePrintModal()">סגור</button>
+      </div>
+    </div>
+    <div class="print-card-wrap" id="print-card-content"></div>
+  </div>
+</div>
+
+<!-- ===== SETTINGS MODAL ===== -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <h3>⚙️ הגדרות</h3>
+      <button class="modal-close" onclick="closeSettings()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="mg">
+        <div class="mg-field full">
+          <label>מפתח API של Anthropic (Claude)</label>
+          <input type="password" id="settings-api-key" placeholder="sk-ant-..."
+            style="font-family:monospace;font-size:.85rem">
+          <div class="pages-input-hint">נדרש לקריאת תעודות משלוח עם AI. נשמר רק במכשיר שלך.</div>
+        </div>
+        <div class="mg-field full" style="padding-top:14px;border-top:1px solid var(--line)">
+          <label>Firebase — שיתוף כרטיסי עבודה בין עובדים</label>
+          <textarea id="settings-firebase" rows="5" placeholder='{
+  "apiKey": "AIza...",
+  "databaseURL": "https://MY-PROJECT-default-rtdb.firebaseio.com",
+  "projectId": "my-project"
+}' style="font-family:monospace;font-size:.76rem;padding:8px 10px;border:1.5px solid var(--line);
+            border-radius:6px;outline:none;width:100%;resize:vertical;background:white"></textarea>
+          <div class="pages-input-hint">
+            הדבק את Firebase config מ־<a href="https://console.firebase.google.com" target="_blank" style="color:var(--press)">console.firebase.google.com</a>.<br>
+            שתף הגדרה זו עם כל עובד פעם אחת — כרטיסים יסתנכרנו אוטומטית.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-clear" onclick="closeSettings()">ביטול</button>
+      <button class="btn btn-primary" onclick="saveSettings()">💾 שמור</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== DATA ==========
+let apiKey         = localStorage.getItem('solanApiKey') || '';
+let firebaseConfig = JSON.parse(localStorage.getItem('solanFirebaseConfig') || 'null');
+let _fbConnected   = false;
+let cards          = JSON.parse(localStorage.getItem('solanCards') || '[]');
+let newspapers= JSON.parse(localStorage.getItem('solanNewspapers')|| '[]');
+let historyDB = JSON.parse(localStorage.getItem('solanHistory')   || '{}');
+let inventory      = JSON.parse(localStorage.getItem('solanInventory')      || '[]');
+let inventoryPress = JSON.parse(localStorage.getItem('solanInventoryPress') || '[]');
+let invoiceLogs    = JSON.parse(localStorage.getItem('solanInvoiceLogs')    || '[]');
+let quotes         = JSON.parse(localStorage.getItem('solanQuotes')         || '[]');
+let customers      = JSON.parse(localStorage.getItem('solanCustomers')      || '[]');
+// quote item: { id, type:'quote'|'order', docNum, customer, date, notes, items:[{desc,qty,price}], vatPct, ts }
+// invoiceLogs item: { id, doc_number, doc_type, supplier, date, total_ils, items:[{name,qty,price_per_sheet,price_total}], priceOnly, ts }
+let currentRuns = [];
+let editingPaperId = null;
+
+const DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+
+const AC_SEEDS = {
+  'f-type':  ['עיתון','עלון','כרטיס ביקור','פוסטר','קטלוג','חוברת','ספר','מדבקה'],
+  'f-paper': ['כרומו מט 80 גר','כרומו גלוס 90 גר','כרומו מט 115 גר','אופסט 70 גר',
+               'אופסט 80 גר','גלוס 135 גר','גלוס 170 גר','מט 250 גר','מט 300 גר'],
+  'f-name':  [],
+};
+
+// ========== STORAGE ==========
+function persist() {
+  localStorage.setItem('solanHistory',   JSON.stringify(historyDB));
+  localStorage.setItem('solanInventory',      JSON.stringify(inventory));
+  localStorage.setItem('solanInventoryPress', JSON.stringify(inventoryPress));
+  localStorage.setItem('solanInvoiceLogs',    JSON.stringify(invoiceLogs));
+  localStorage.setItem('solanQuotes',         JSON.stringify(quotes));
+  localStorage.setItem('solanCustomers',      JSON.stringify(customers));
+  if (apiKey) localStorage.setItem('solanApiKey', apiKey);
+  updateBadge();
+  if (_fbConnected && window._fbSet && window._fbDB) {
+    try {
+      window._fbSet(window._fbRef(window._fbDB, 'cards'),          cards);
+      window._fbSet(window._fbRef(window._fbDB, 'newspapers'),      newspapers);
+      window._fbSet(window._fbRef(window._fbDB, 'inventory'),       inventory);
+      window._fbSet(window._fbRef(window._fbDB, 'inventoryPress'),  inventoryPress);
+      window._fbSet(window._fbRef(window._fbDB, 'invoiceLogs'),     invoiceLogs);
+      return;
+    } catch(e) { console.warn('Firebase write:', e); }
+  }
+  localStorage.setItem('solanCards',      JSON.stringify(cards));
+  localStorage.setItem('solanNewspapers', JSON.stringify(newspapers));
+}
+
+function addHistory(key, val) {
+  if (!val || val.length < 2) return;
+  if (!historyDB[key]) historyDB[key] = [];
+  historyDB[key] = [val, ...historyDB[key].filter(v=>v!==val)].slice(0,30);
+}
+
+function updateBadge() {
+  const b = document.getElementById('count-badge');
+  b.textContent = cards.length ? '('+cards.length+')' : '';
+}
+
+// ========== TABS ==========
+function switchTab(tab) {
+  ['week','new','saved','papers','inventory','quotes'].forEach(t => {
+    const v = document.getElementById('view-'+t); if (v) v.style.display = t===tab ? '' : 'none';
+    const tb = document.getElementById('tab-'+t); if (tb) tb.classList.toggle('active', t===tab);
+  });
+  if (tab==='week')      renderWeek();
+  if (tab==='saved')     renderCards();
+  if (tab==='papers')    renderPaperMgmt();
+  if (tab==='inventory') renderInventory();
+  if (tab==='quotes')    renderQuotesList();
+}
+
+// ========== AUTOCOMPLETE ==========
+function acSugg(fieldId, q) {
+  const seeds  = AC_SEEDS[fieldId] || [];
+  const hist   = historyDB[fieldId] || [];
+  const fromNP = newspapers.map(n => {
+    if (fieldId==='f-name')  return n.name;
+    if (fieldId==='f-type')  return n.type;
+    if (fieldId==='f-paper') return n.paper;
+    return null;
+  }).filter(Boolean);
+  const all = [...new Set([...hist, ...fromNP, ...seeds])].filter(Boolean);
+  if (!q || q.length===0) return all.slice(0,8);
+  const lq = q.toLowerCase();
+  return all.filter(s => s.toLowerCase().includes(lq)).slice(0,8);
+}
+
+function acInput(inputEl, listId, sugs) {
+  const list = document.getElementById(listId);
+  if (!sugs || !sugs.length) { list.classList.remove('open'); return; }
+  const q = inputEl.value.trim();
+  list.innerHTML = sugs.map(s => {
+    let hi = s;
+    if (q) {
+      try { hi = s.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>'); } catch(e){}
+    }
+    const safeVal = s.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    return `<div class="ac-item" data-val="${safeVal}" data-field="${inputEl.id}" data-list="${listId}"
+      onmousedown="event.preventDefault()" onclick="acPickEl(this)">${hi}</div>`;
+  }).join('');
+  list.classList.add('open');
+}
+
+function acPickEl(el) {
+  const val     = el.dataset.val;
+  const fieldId = el.dataset.field;
+  const listId  = el.dataset.list;
+  const input = document.getElementById(fieldId);
+  if (input) { input.value = val; input.dispatchEvent(new Event('input')); }
+  const list = document.getElementById(listId);
+  if (list) list.classList.remove('open');
+  if (fieldId==='f-size') { syncSizeBtns(val); calcRuns(); }
+  if (fieldId==='f-copies'||fieldId==='f-pages') calcRuns();
+}
+
+function acPick(fieldId, listId, val) {
+  const el = document.getElementById(fieldId);
+  if (el) el.value = val;
+  const list = document.getElementById(listId);
+  if (list) list.classList.remove('open');
+  if (fieldId==='f-size') { syncSizeBtns(val); calcRuns(); }
+  if (fieldId==='f-copies'||fieldId==='f-pages') calcRuns();
+}
+
+function acDelay(listId) {
+  setTimeout(() => {
+    const el = document.getElementById(listId);
+    if (el) el.classList.remove('open');
+  }, 200);
+}
+
+// ========== SIZE BUTTONS ==========
+function pickSize(val) {
+  document.getElementById('f-size').value = val;
+  syncSizeBtns(val);
+  calcRuns();
+}
+function syncSizeBtns(val) {
+  document.querySelectorAll('#view-new .size-btn').forEach(b =>
+    b.classList.toggle('active', b.textContent.trim()===val.trim()));
+}
+function pmPickSize(val) {
+  document.getElementById('pm-size').value = val;
+  document.getElementById('pms1').classList.toggle('active', val==='16.5×24');
+  document.getElementById('pms2').classList.toggle('active', val==='A4');
+  document.getElementById('pms3').classList.toggle('active', val==='A5');
+}
+
+// ========== RUNS ==========
+/*
+  לוגיקת כריכת סיכות — קיפול מבחוץ פנימה:
+  מחלקים עמודים לשכבות מהקצה לאמצע.
+  כל שכבה = 2 חלקים סימטריים (קצוות), חוץ מהפנימית שהיא רצוף באמצע.
+  ריצה 1 = החיצונית, ריצה אחרונה = הפנימית.
+
+  70×100 (16.5×24): fullSheet=32, halfSheet=16, quarterSheet=8
+  64×90 (A4):       fullSheet=16, halfSheet=8,  quarterSheet=4
+*/
+function buildRuns(totalPages, copies, fullSheet) {
+  const halfSheet    = fullSheet / 2;
+  const quarterSheet = fullSheet / 4;
+
+  // בנה שכבות מבחוץ פנימה
+  // השאר = totalPages mod fullSheet → שכבה חיצונית חלקית
+  // כל השאר = שכבות מלאות של fullSheet
+  const layers = [];
+  const rem = totalPages % fullSheet;
+  if (rem !== 0) layers.push(rem);          // שכבה חיצונית חלקית
+  let inner = totalPages - rem;
+  while (inner > 0) { layers.push(fullSheet); inner -= fullSheet; }
+  // layers[0] = חיצוני ביותר, layers[last] = פנימי
+
+  let front = 1;
+  let back  = totalPages;
+
+  return layers.map((layerPages, i) => {
+    const isLast = (i === layers.length - 1);
+    const half   = layerPages / 2;
+
+    let pageRange, runCopies, folds;
+
+    if (isLast && layerPages === fullSheet) {
+      // הפנימי ביותר — גליון שלם רצוף
+      pageRange  = 'עמ\' ' + front + '–' + (front + layerPages - 1);
+      runCopies  = copies;
+      folds      = fullSheet === 32 ? '4 קיפולים' : '3 קיפולים';
+      front     += layerPages;
+    } else if (layerPages === fullSheet) {
+      // גליון שלם — 2 חלקים סימטריים
+      const frontEnd = front + half - 1;
+      const backStart= back  - half + 1;
+      pageRange  = 'עמ\' ' + front + '–' + frontEnd + ' + עמ\' ' + backStart + '–' + back;
+      runCopies  = copies;
+      folds      = fullSheet === 32 ? '4 קיפולים' : '3 קיפולים';
+      front     += half;
+      back      -= half;
+    } else {
+      // שכבה חיצונית חלקית — 2 חלקים סימטריים, כמות מחולקת
+      const frontEnd = front + half - 1;
+      const backStart= back  - half + 1;
+      pageRange  = 'עמ\' ' + front + '–' + frontEnd + ' + עמ\' ' + backStart + '–' + back;
+      runCopies  = Math.round(copies / (fullSheet / layerPages));
+      folds      = layerPages === halfSheet
+        ? (fullSheet === 32 ? '3 קיפולים' : '2 קיפולים')
+        : (fullSheet === 32 ? '2 קיפולים' : '1 קיפול');
+      front     += half;
+      back      -= half;
+    }
+
+    return {
+      num: i + 1,
+      pages: layerPages,
+      pageRange,
+      copies: runCopies,
+      folds,
+      machine: ''
+    };
+  });
+}
+
+function calcRuns() {
+  const copies = parseInt(document.getElementById('f-copies').value)||0;
+  const pages  = parseInt(document.getElementById('f-pages').value)||0;
+  const size   = document.getElementById('f-size').value.trim().toLowerCase();
+  const field  = document.getElementById('runs-field');
+  const out    = document.getElementById('runs-output');
+  if (!copies||!pages) { field.style.display='none'; currentRuns=[]; return; }
+  let fs=0, lbl='';
+  if (/70[\s×x*]?100|100[\s×x*]?70|16[.,]5[\s×x*]?24|24[\s×x*]?16|^a5$/.test(size)) { fs=32; lbl=(/a5/.test(size)?'A5':'70×100') + ' — 32 עמ\' לגיליון'; }
+  else if (/64[\s×x*]?90|90[\s×x*]?64|a4/.test(size)) { fs=16; lbl='64×90/A4 — 16 עמ\' לגיליון'; }
+  else { field.style.display='none'; currentRuns=[]; return; }
+
+  // preserve machine choices
+  const prev = {};
+  document.querySelectorAll('.mach-sel').forEach(s=>{ if(s.dataset.run) prev[s.dataset.run]=s.value; });
+  currentRuns = buildRuns(pages, copies, fs);
+  currentRuns.forEach(r=>{ if(prev[r.num]) r.machine=prev[r.num]; });
+
+  const rows = currentRuns.map((r,i)=>`
+    <tr>
+      <td><strong>ריצה ${r.num}</strong></td>
+      <td>${r.pages} עמ'</td>
+      <td style="font-size:.8rem;color:#444">${r.pageRange}</td>
+      <td><strong>${r.copies.toLocaleString()}</strong></td>
+      <td style="font-size:.76rem;color:#888">${r.folds}</td>
+      <td><select class="mach-sel" data-run="${r.num}" onchange="currentRuns[${i}].machine=this.value">
+        <option value="">-- מכונה --</option>
+        <option value="מכונה 4 צבעים" ${r.machine==='מכונה 4 צבעים'?'selected':''}>מכונה 4 צבעים</option>
+        <option value="מכונה 8 צבעים" ${r.machine==='מכונה 8 צבעים'?'selected':''}>מכונה 8 צבעים</option>
+        <option value="פורמט גדול" ${r.machine==='פורמט גדול'?'selected':''}>פורמט גדול</option>
+      </select></td>
+    </tr>`).join('');
+
+  out.innerHTML=`<div class="runs-box">
+    <div class="runs-box-title">🔢 ריצות הדפסה — ${lbl}</div>
+    <table class="runs-table">
+      <thead><tr><th>ריצה</th><th>עמודים</th><th>טווח עמודים</th><th>כמות</th><th>קיפולים</th><th>מכונה</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="runs-summary">
+      <span>ריצות: <strong>${currentRuns.length}</strong></span>
+      <span>עמודים: <strong>${pages}</strong></span>
+      <span>עותקים: <strong>${copies.toLocaleString()}</strong></span>
+    </div></div>`;
+  field.style.display='';
+}
+
+// ========== MANUAL RUNS ==========
+let manualRuns = [];
+
+function addManualRun() {
+  const id = Date.now();
+  manualRuns.push({ id, pages:'', copies:'', machine:'' });
+  renderManualRuns();
+}
+
+function removeManualRun(id) {
+  manualRuns = manualRuns.filter(r=>r.id!==id);
+  renderManualRuns();
+}
+
+function renderManualRuns() {
+  const list = document.getElementById('manual-runs-list');
+  if (!manualRuns.length) { list.innerHTML=''; return; }
+  list.innerHTML = manualRuns.map((r,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;background:#f8f9ff;border:1.5px solid #dde3f8;border-radius:8px;padding:10px 12px;flex-wrap:wrap">
+      <span style="font-weight:800;color:var(--press);white-space:nowrap;min-width:52px">ריצה ${i+1}</span>
+      <input type="number" placeholder="עמודים" min="1"
+        value="${r.pages}"
+        onchange="manualRuns[${i}].pages=this.value"
+        style="width:80px;padding:6px 8px;border:1.5px solid var(--line);border-radius:6px;font-family:Heebo,sans-serif;font-size:.88rem;outline:none">
+      <input type="number" placeholder="כמות עותקים" min="1"
+        value="${r.copies}"
+        onchange="manualRuns[${i}].copies=this.value"
+        style="width:130px;padding:6px 8px;border:1.5px solid var(--line);border-radius:6px;font-family:Heebo,sans-serif;font-size:.88rem;outline:none">
+      <select onchange="manualRuns[${i}].machine=this.value"
+        style="padding:6px 8px;border:1.5px solid var(--line);border-radius:6px;font-family:Heebo,sans-serif;font-size:.88rem;background:white;cursor:pointer;outline:none;flex:1;min-width:130px">
+        <option value="">-- מכונה --</option>
+        <option value="מכונה 4 צבעים" ${r.machine==='מכונה 4 צבעים'?'selected':''}>מכונה 4 צבעים</option>
+        <option value="מכונה 8 צבעים" ${r.machine==='מכונה 8 צבעים'?'selected':''}>מכונה 8 צבעים</option>
+        <option value="פורמט גדול" ${r.machine==='פורמט גדול'?'selected':''}>פורמט גדול</option>
+      </select>
+      <button onclick="removeManualRun(${r.id})"
+        style="background:none;border:none;color:#ccc;font-size:1.1rem;cursor:pointer;padding:0 2px"
+        onmouseover="this.style.color='#c62828'" onmouseout="this.style.color='#ccc'">✕</button>
+    </div>`).join('');
+}
+
+function getEffectiveRuns() {
+  // אם יש ריצות אוטומטיות — השתמש בהן
+  if (currentRuns.length) return currentRuns.map(r=>({...r}));
+  // אחרת — ריצות ידניות
+  return manualRuns
+    .filter(r => r.pages || r.copies || r.machine)
+    .map((r,i)=>({
+      num: i+1,
+      pages: parseInt(r.pages)||0,
+      copies: parseInt(r.copies)||0,
+      folds: '',
+      pageRange: '',
+      machine: r.machine
+    }));
+}
+
+// ========== WEEKLY VIEW ==========
+// עיתונים שהוסתרו השבוע (לא נמחקו לצמיתות)
+let hiddenThisWeek = JSON.parse(sessionStorage.getItem('hiddenThisWeek') || '[]');
+
+function hideFromWeek(id) {
+  hiddenThisWeek = [...new Set([...hiddenThisWeek, id])];
+  sessionStorage.setItem('hiddenThisWeek', JSON.stringify(hiddenThisWeek));
+  renderWeek();
+}
+
+function renderWeek() {
+  const grid = document.getElementById('week-grid');
+  grid.innerHTML = DAYS.map(day => {
+    const dayPapers = newspapers.filter(n => n.day===day && !hiddenThisWeek.includes(n.id));
+    const papersHTML = dayPapers.length ? dayPapers.map(n=>`
+      <div class="paper-btn">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
+          <div>
+            <div class="paper-btn-name">${n.name}</div>
+            <div class="paper-btn-detail">${n.paper||''} · ${n.copies?parseInt(n.copies).toLocaleString()+' עותקים':''}</div>
+          </div>
+          <button title="הסר מהיומן השבוע" onclick="hideFromWeek(${n.id})"
+            style="background:none;border:none;cursor:pointer;color:#ccc;font-size:1rem;line-height:1;flex-shrink:0;padding:0" 
+            onmouseover="this.style.color='#c62828'" onmouseout="this.style.color='#ccc'">✕</button>
+        </div>
+        <button class="pick-pages-btn" onclick="openPagePicker(${n.id})">
+          בחר כמות עמודים השבוע ▼
+        </button>
+      </div>`).join('')
+      : '<div class="day-empty">אין עיתונים השבוע</div>';
+
+    return `<div class="day-col">
+      <div class="day-header">
+        <span class="day-name">יום ${day}</span>
+        ${dayPapers.length?`<span class="day-count">${dayPapers.length}</span>`:''}
+      </div>
+      <div class="day-papers">
+        ${papersHTML}
+        <button class="add-paper-btn" onclick="openPaperModalForDay('${day}')">+ הוסף עיתון</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// חלון בחירת עמודים
+function openPagePicker(newspaperId) {
+  const n = newspapers.find(x=>x.id===newspaperId);
+  if (!n) return;
+
+  // בנה חלון בחירה קטן עם כל האפשרויות
+  const opts = (n.pageOptions||[]);
+  const html = `
+    <div class="modal-overlay open" id="page-picker-modal" onclick="if(event.target===this)closePP()">
+      <div class="modal" style="max-width:360px">
+        <div class="modal-header">
+          <h3>${n.name}</h3>
+          <button class="modal-close" onclick="closePP()">×</button>
+        </div>
+        <div class="modal-body" style="padding:16px 20px">
+          <div style="font-size:.82rem;font-weight:700;color:var(--gold);margin-bottom:12px">כמה עמודים השבוע?</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            ${opts.map(p=>`
+              <button onclick="closePP();quickCard(${n.id},${p})"
+                style="padding:12px 6px;border:2px solid #c0ccf0;border-radius:8px;background:var(--tpl-bg);
+                  color:var(--press);font-family:Heebo,sans-serif;font-size:1rem;font-weight:800;cursor:pointer;
+                  transition:all .15s"
+                onmouseover="this.style.background='#2d3561';this.style.color='white'"
+                onmouseout="this.style.background='var(--tpl-bg)';this.style.color='var(--press)'">
+                ${p}<br><span style="font-size:.7rem;font-weight:500">עמודים</span>
+              </button>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // הוסף לדף
+  const existing = document.getElementById('page-picker-modal');
+  if (existing) existing.remove();
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closePP() {
+  const el = document.getElementById('page-picker-modal');
+  if (el) el.remove();
+}
+
+function quickCard(newspaperId, pages) {
+  const n = newspapers.find(x=>x.id===newspaperId);
+  if (!n) return;
+
+  // חשב ריצות
+  const copies = parseInt(n.copies)||0;
+  let fs = 0;
+  const size = (n.size||'').toLowerCase();
+  if (/70[\s×x*]?100|16[.,]5[\s×x*]?24/.test(size)) fs=32;
+  else if (/64[\s×x*]?90|a4/.test(size)) fs=16;
+
+  if (fs && copies && pages) {
+    currentRuns = buildRuns(pages, copies, fs);
+  } else {
+    currentRuns = [];
+  }
+
+  // שמור נתוני העיתון זמנית
+  window._pendingCard = { n, pages };
+
+  // פתח חלון בחירת מכונות
+  openRunsModal(n, pages);
+}
+
+function openRunsModal(n, pages) {
+  document.getElementById('runs-modal-title').textContent = n.name + ' — ' + pages + ' עמודים';
+
+  const copies = parseInt(n.copies)||0;
+  const detail = [
+    n.paper, n.size,
+    copies ? copies.toLocaleString()+' עותקים' : ''
+  ].filter(Boolean).join(' · ');
+
+  let bodyHTML = `<div class="runs-modal-paper">
+    <div class="runs-modal-paper-name">${n.name}</div>
+    <div class="runs-modal-paper-detail">${detail}</div>
+  </div>`;
+
+  if (currentRuns.length) {
+    bodyHTML += currentRuns.map((r,i) => `
+      <div class="runs-modal-row">
+        <div class="run-info">
+          <div class="run-num">ריצה ${r.num}</div>
+          <div class="run-detail">${r.pages} עמ' · ${r.pageRange} · ${r.folds}</div>
+        </div>
+        <div class="run-copies-badge">${r.copies.toLocaleString()} יח'</div>
+        <select class="run-mach-sel" data-run="${r.num}"
+          onchange="currentRuns[${i}].machine=this.value">
+          <option value="">-- מכונה --</option>
+          <option value="מכונה 4 צבעים">מכונה 4 צבעים</option>
+          <option value="מכונה 8 צבעים">מכונה 8 צבעים</option>
+          <option value="פורמט גדול">פורמט גדול</option>
+        </select>
+      </div>`).join('');
+  } else {
+    bodyHTML += `<div style="padding:20px;color:var(--gray);text-align:center">
+      לא ניתן לחשב ריצות — בדוק גודל נייר בהגדרות העיתון</div>`;
+  }
+
+  document.getElementById('runs-modal-body').innerHTML = bodyHTML;
+  document.getElementById('runs-modal').classList.add('open');
+}
+
+function closeRunsModal() {
+  document.getElementById('runs-modal').classList.remove('open');
+  window._pendingCard = null;
+  currentRuns = [];
+}
+
+function confirmRunsAndSave() {
+  const pending = window._pendingCard;
+  if (!pending) return;
+  const { n, pages } = pending;
+
+  // מלא טופס ושמור
+  document.getElementById('f-name').value   = n.name||'';
+  document.getElementById('f-type').value   = n.type||'עיתון';
+  document.getElementById('f-size').value   = n.size||'';
+  document.getElementById('f-paper').value  = n.paper||'';
+  document.getElementById('f-copies').value = n.copies||'';
+  document.getElementById('f-pages').value  = pages;
+  document.getElementById('f-notes').value  = n.notes||'';
+  document.getElementById('f-order-date').value = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[name="color"]').forEach(r=>r.checked=false);
+  const cr = document.querySelector('input[name="color"][value="'+n.color+'"]');
+  if (cr) cr.checked=true;
+
+  // שמור כרטיס עם הריצות שנבחרו
+  const card = {
+    id: Date.now(),
+    name:         n.name,
+    type:         n.type||'עיתון',
+    orderDate:    new Date().toISOString().split('T')[0],
+    deliveryDate: '',
+    copies:       n.copies,
+    pages:        pages,
+    color:        n.color,
+    size:         n.size,
+    paper:        n.paper,
+    notes:        n.notes||'',
+    status:       'pending',
+    createdAt:    new Date().toLocaleDateString('he-IL'),
+    runs:         currentRuns.map(r=>({...r}))
+  };
+  cards.unshift(card);
+  persist();
+  closeRunsModal();
+  clearForm();
+  showPrintModal(card);
+  window._pendingDeduct = card;
+}
+
+// ========== NEWSPAPER MANAGEMENT ==========
+function openPaperModal(id) {
+  editingPaperId = id || null;
+  const n = id ? newspapers.find(x=>x.id===id) : null;
+  document.getElementById('paper-modal-title').textContent = n ? '✏️ עריכת עיתון' : '📰 הוסף עיתון';
+  document.getElementById('pm-name').value   = n?.name   || '';
+  document.getElementById('pm-day').value    = n?.day    || 'ראשון';
+  document.getElementById('pm-type').value   = n?.type   || 'עיתון';
+  document.getElementById('pm-size').value   = n?.size   || '';
+  document.getElementById('pm-paper').value  = n?.paper  || '';
+  document.getElementById('pm-copies').value = n?.copies || '';
+  document.getElementById('pm-color').value  = n?.color  || 'פרוצס 2 צדדים';
+  document.getElementById('pm-pages').value  = (n?.pageOptions||[]).join(',');
+  document.getElementById('pm-notes').value  = n?.notes  || '';
+  document.getElementById('pms1').classList.toggle('active', n?.size==='16.5×24');
+  document.getElementById('pms3').classList.toggle('active', n?.size==='A5');
+  document.getElementById('pms2').classList.toggle('active', n?.size==='A4');
+  document.getElementById('paper-modal').classList.add('open');
+}
+
+function openPaperModalForDay(day) {
+  openPaperModal();
+  document.getElementById('pm-day').value = day;
+}
+
+function closePaperModal() {
+  document.getElementById('paper-modal').classList.remove('open');
+  editingPaperId = null;
+}
+
+function savePaper() {
+  const name = document.getElementById('pm-name').value.trim();
+  if (!name) { showToast('⚠️ חסר שם עיתון'); return; }
+  const pagesRaw = document.getElementById('pm-pages').value;
+  const pageOptions = pagesRaw.split(/[,،\s]+/).map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>0).sort((a,b)=>a-b);
+
+  const data = {
+    id:          editingPaperId || Date.now(),
+    name,
+    day:         document.getElementById('pm-day').value,
+    type:        document.getElementById('pm-type').value.trim()||'עיתון',
+    size:        document.getElementById('pm-size').value.trim(),
+    paper:       document.getElementById('pm-paper').value.trim(),
+    copies:      document.getElementById('pm-copies').value,
+    color:       document.getElementById('pm-color').value,
+    pageOptions,
+    notes:       document.getElementById('pm-notes').value.trim()
+  };
+
+  if (editingPaperId) {
+    newspapers = newspapers.map(n=>n.id===editingPaperId?data:n);
+  } else {
+    newspapers.push(data);
+  }
+  persist();
+  closePaperModal();
+  renderPaperMgmt();
+  showToast('✅ עיתון נשמר!');
+}
+
+function deletePaper(id) {
+  if (!confirm('למחוק עיתון זה?')) return;
+  newspapers = newspapers.filter(n=>n.id!==id);
+  persist(); renderPaperMgmt(); renderWeek();
+  showToast('🗑️ עיתון נמחק');
+}
+
+function renderPaperMgmt() {
+  const el = document.getElementById('paper-mgmt-list');
+  if (!newspapers.length) {
+    el.innerHTML='<div class="empty-state"><div class="icon">📰</div><p>אין עיתונים שמורים — הוסף את הראשון!</p></div>';
+    return;
+  }
+  const byDay = {};
+  DAYS.forEach(d=>byDay[d]=[]);
+  newspapers.forEach(n=>{ if(byDay[n.day]) byDay[n.day].push(n); });
+  el.innerHTML = DAYS.filter(d=>byDay[d].length).map(d=>`
+    <div style="margin-bottom:6px">
+      <div style="font-size:.8rem;font-weight:800;color:var(--press);padding:6px 0 4px">יום ${d}</div>
+      ${byDay[d].map(n=>`
+        <div class="paper-mgmt-item">
+          <div class="pmi-header">
+            <div>
+              <div class="pmi-name">${n.name}</div>
+              <div class="pmi-day">${n.type||''} · ${n.day}</div>
+            </div>
+            <div style="display:flex;gap:7px">
+              <button class="btn btn-sm btn-tpl" onclick="openPaperModal(${n.id})">✏️ ערוך</button>
+              <button class="btn btn-sm btn-danger" onclick="deletePaper(${n.id})">מחק</button>
+            </div>
+          </div>
+          <div class="pmi-body">
+            <span><strong>נייר:</strong> ${n.paper||'—'}</span>
+            <span><strong>גודל:</strong> ${n.size||'—'}</span>
+            <span><strong>עותקים:</strong> ${n.copies?parseInt(n.copies).toLocaleString():'—'}</span>
+            <span><strong>צבע:</strong> ${n.color||'—'}</span>
+          </div>
+          <div style="padding:8px 16px 10px;border-top:1px solid var(--line)">
+            <div style="font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:5px">אפשרויות עמודים</div>
+            <div class="pmi-pages">
+              ${(n.pageOptions||[]).map(p=>`<span class="pmi-page-tag">${p} עמ'</span>`).join('')}
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+// ========== FORM ==========
+function clearForm() {
+  ['f-name','f-type','f-order-date','f-delivery-date','f-copies','f-pages','f-size','f-paper','f-notes','f-machine']
+    .forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+  document.querySelectorAll('input[name="color"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('#view-new .size-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('runs-field').style.display='none';
+  document.getElementById('runs-output').innerHTML='';
+  document.getElementById('form-title').textContent='יצירת כרטיס עבודה חדש';
+  currentRuns=[];
+  manualRuns=[];
+  renderManualRuns();
+}
+
+function getColor() {
+  const r=document.querySelector('input[name="color"]:checked');
+  return r?r.value:'';
+}
+
+// ========== SAVE CARD ==========
+function saveCard() {
+  const name=document.getElementById('f-name').value.trim();
+  if (!name) { showToast('⚠️ חסר שם עבודה'); return; }
+  addHistory('f-name',  name);
+  addHistory('f-type',  document.getElementById('f-type').value.trim());
+  addHistory('f-paper', document.getElementById('f-paper').value.trim());
+  const card={
+    id:Date.now(), name,
+    type:         document.getElementById('f-type').value,
+    orderDate:    document.getElementById('f-order-date').value,
+    deliveryDate: document.getElementById('f-delivery-date').value,
+    copies:       document.getElementById('f-copies').value,
+    pages:        document.getElementById('f-pages').value,
+    color:        getColor(),
+    size:         document.getElementById('f-size').value.trim(),
+    paper:        document.getElementById('f-paper').value.trim(),
+    notes:        document.getElementById('f-notes').value.trim(),
+    machine:      document.getElementById('f-machine').value,
+    status:       'pending',
+    createdAt:    new Date().toLocaleDateString('he-IL'),
+    runs:         getEffectiveRuns()
+  };
+  cards.unshift(card);
+  persist();
+  showPrintModal(card);
+  clearForm();
+  // שאל על מלאי לאחר סגירת מודל ההדפסה
+  window._pendingDeduct = card;
+}
+
+// ========== PREVIEW ==========
+function buildTempCard() {
+  const name = document.getElementById('f-name').value.trim();
+  return {
+    id: 'preview',
+    name:         name || '(ללא שם)',
+    type:         document.getElementById('f-type').value,
+    orderDate:    document.getElementById('f-order-date').value,
+    deliveryDate: document.getElementById('f-delivery-date').value,
+    copies:       document.getElementById('f-copies').value,
+    pages:        document.getElementById('f-pages').value,
+    color:        getColor(),
+    size:         document.getElementById('f-size').value.trim(),
+    paper:        document.getElementById('f-paper').value.trim(),
+    notes:        document.getElementById('f-notes').value.trim(),
+    machine:      document.getElementById('f-machine').value,
+    createdAt:    new Date().toLocaleDateString('he-IL'),
+    runs:         getEffectiveRuns()
+  };
+}
+
+function previewCard() {
+  // תצוגה מקדימה מהטופס — לא שומר
+  const card = buildTempCard();
+  showPreviewModal(card);
+}
+
+function previewFromRunsModal() {
+  // תצוגה מקדימה מחלון הריצות
+  const pending = window._pendingCard;
+  if (!pending) return;
+  const { n, pages } = pending;
+  const card = {
+    id: 'preview',
+    name:         n.name,
+    type:         n.type||'עיתון',
+    orderDate:    new Date().toISOString().split('T')[0],
+    deliveryDate: '',
+    copies:       n.copies,
+    pages,
+    color:        n.color,
+    size:         n.size,
+    paper:        n.paper,
+    notes:        n.notes||'',
+    createdAt:    new Date().toLocaleDateString('he-IL'),
+    runs:         currentRuns.map(r=>({...r}))
+  };
+  showPreviewModal(card);
+}
+
+function showPreviewModal(card) {
+  document.getElementById('print-card-content').innerHTML = buildPrintCard(card);
+  document.getElementById('print-modal-save-btn').style.display =
+    card.id === 'preview' ? 'inline-block' : 'none';
+  document.getElementById('print-modal').classList.add('open');
+  window._previewCard = card;
+}
+
+// ========== PRINT ==========
+function buildPrintCard(c) {
+  const runsRows=(c.runs||[]).map(r=>`
+    <tr>
+      <td><strong>ריצה ${r.num}</strong></td>
+      <td>${r.pages ? r.pages+' עמ\'' : '—'}</td>
+      <td style="font-size:.8rem">${r.pageRange||'—'}</td>
+      <td><strong>${r.copies?r.copies.toLocaleString():'—'}</strong></td>
+      <td>${r.folds||'—'}</td>
+      <td><strong>${r.machine||'—'}</strong></td>
+    </tr>`).join('');
+  return `
+  <div class="print-card">
+    <div class="pc-title"><h2>כרטיס עבודה סולן הדפסות</h2><small>נוצר: ${c.createdAt}</small></div>
+    <div class="pc-row"><div class="pc-label">שם העבודה</div><div class="pc-value">${c.name||''}</div></div>
+    <div class="pc-row"><div class="pc-label">סוג עבודה</div><div class="pc-value">${c.type||''}</div></div>
+    <div class="pc-row"><div class="pc-label">תאריך הזמנה</div><div class="pc-value">${c.orderDate||''}</div></div>
+    <div class="pc-row"><div class="pc-label">מועד אספקה</div><div class="pc-value">${c.deliveryDate||''}</div></div>
+    <div class="pc-row"><div class="pc-label">מס' עותקים</div><div class="pc-value">${c.copies?parseInt(c.copies).toLocaleString():''}</div></div>
+    <div class="pc-row"><div class="pc-label">מס' עמודים</div><div class="pc-value">${c.pages||''}</div></div>
+    <div class="pc-row"><div class="pc-label">גודל סופי</div><div class="pc-value">${c.size||''}</div></div>
+    <div class="pc-row"><div class="pc-label">סוג נייר</div><div class="pc-value">${c.paper||''}</div></div>
+    <div class="pc-row"><div class="pc-label">צבע</div><div class="pc-value">${c.color||''}</div></div>
+    <div class="pc-row pc-row-tall"><div class="pc-label">הערות</div><div class="pc-value">${c.notes||''}</div></div>
+    ${(c.runs&&c.runs.length)?`
+    <div class="pc-runs-header">פירוט ריצות הדפסה</div>
+    <table class="pc-runs-table">
+      <thead><tr><th>ריצה</th><th>עמודים</th><th>טווח עמודים</th><th>כמות להדפסה</th><th>קיפולים</th><th>מכונה</th></tr></thead>
+      <tbody>${runsRows}</tbody>
+    </table>`:''}
+    <div class="pc-footer"><span>סולן הדפסות</span><span>מס' עבודה: ${c.id}</span></div>
+  </div>`;
+}
+
+function showPrintModal(card) {
+  document.getElementById('print-card-content').innerHTML = buildPrintCard(card);
+  document.getElementById('print-modal-save-btn').style.display = 'none';
+  document.getElementById('print-modal').classList.add('open');
+  window._previewCard = null;
+}
+
+function saveFromPreview() {
+  // שמור מתצוגה מקדימה של הטופס
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { showToast('⚠️ חסר שם עבודה'); closePrintModal(); return; }
+  const card = buildTempCard();
+  card.id = Date.now();
+  card.status = 'pending';
+  addHistory('f-name',  card.name);
+  addHistory('f-type',  card.type);
+  addHistory('f-paper', card.paper);
+  cards.unshift(card);
+  persist();
+  document.getElementById('print-modal-save-btn').style.display = 'none';
+  clearForm();
+  showToast('✅ הכרטיס נשמר!');
+  setTimeout(() => switchTab('saved'), 600);
+}
+function closePrintModal() {
+  document.getElementById('print-modal').classList.remove('open');
+  const card = window._pendingDeduct;
+  window._pendingDeduct = null;
+  if (card && inventory.length) {
+    setTimeout(() => askDeductInventory(card), 300);
+  } else {
+    switchTab('saved');
+  }
+}
+function doPrint() {
+  const content=document.getElementById('print-card-content').innerHTML;
+  const w=window.open('','_blank','width=720,height=620');
+  w.document.write(`<html dir="rtl"><head><meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Heebo',sans-serif;margin:0;padding:12px;}
+    .print-card{border:2.5px solid #333;direction:rtl;}
+    .pc-title{background:#2d3561;color:white;padding:12px 16px;text-align:center;}
+    .pc-title h2{font-size:1.3rem;font-weight:900;}
+    .pc-title small{color:#e8d5a3;font-size:.74rem;display:block;}
+    .pc-row{display:flex;align-items:stretch;border-bottom:1.5px solid #ccc;min-height:34px;}
+    .pc-row-tall{min-height:55px;}
+    .pc-label{width:150px;min-width:150px;background:#f5f0e8;border-left:1.5px solid #ccc;
+      padding:7px 12px;font-size:.78rem;font-weight:800;color:#2d3561;display:flex;align-items:center;}
+    .pc-value{flex:1;padding:7px 14px;font-size:.96rem;font-weight:700;color:#111;display:flex;align-items:center;}
+    .pc-runs-header{background:#2d3561;color:#e8d5a3;padding:6px 14px;font-size:.76rem;font-weight:800;}
+    .pc-runs-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+    .pc-runs-table th{background:#f5f0e8;color:#2d3561;padding:5px 10px;text-align:right;font-size:.7rem;font-weight:800;border-bottom:1.5px solid #ccc;}
+    .pc-runs-table td{padding:7px 10px;border-bottom:1px solid #e0d8cc;font-weight:600;}
+    .pc-runs-table tr:nth-child(even) td{background:#fafaf5;}
+    .pc-footer{background:#f5f0e8;padding:5px 14px;display:flex;justify-content:space-between;font-size:.68rem;color:#888;border-top:1.5px solid #ccc;}
+    @media print{body{padding:0;} @page{margin:5mm;}}
+  </style></head><body>${content}
+  <script>window.onload=()=>{window.print()}<\/script></body></html>`);
+  w.document.close();
+}
+
+// ========== SAVED CARDS ==========
+function deleteCard(id) {
+  if(!confirm('למחוק?')) return;
+  cards=cards.filter(c=>c.id!==id); persist(); renderCards();
+}
+function setStatus(id,s) {
+  const c=cards.find(c=>c.id===id); if(c){c.status=s;persist();renderCards();}
+}
+function statusLabel(s) {
+  if(s==='pending')    return '<span class="status-badge status-pending">ממתין</span>';
+  if(s==='inprogress') return '<span class="status-badge status-inprogress">בדפוס</span>';
+  if(s==='done')       return '<span class="status-badge status-done">✓ הושלם</span>';
+  return '';
+}
+function renderCards() {
+  const el=document.getElementById('cards-container');
+  if(!cards.length){el.innerHTML='<div class="empty-state"><div class="icon">📄</div><p>אין כרטיסים שמורים</p></div>';return;}
+  el.innerHTML=cards.map(c=>`
+    <div class="job-card">
+      <div class="jc-header">
+        <div class="jc-title">${c.name}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${c.type?'<span class="jc-type">'+c.type+'</span>':''}
+          ${statusLabel(c.status)}
+        </div>
+      </div>
+      <div class="jc-meta">
+        <div class="jc-field"><div class="jcf-label">תאריך הזמנה</div><div class="jcf-val">${c.orderDate||'—'}</div></div>
+        <div class="jc-field"><div class="jcf-label">מועד אספקה</div><div class="jcf-val">${c.deliveryDate||'—'}</div></div>
+        <div class="jc-field"><div class="jcf-label">עותקים / עמודים</div><div class="jcf-val">${c.copies||'—'} / ${c.pages||'—'}</div></div>
+        <div class="jc-field"><div class="jcf-label">גודל</div><div class="jcf-val">${c.size||'—'}</div></div>
+        <div class="jc-field"><div class="jcf-label">נייר</div><div class="jcf-val">${c.paper||'—'}</div></div>
+        <div class="jc-field"><div class="jcf-label">צבע</div><div class="jcf-val">${c.color||'—'}</div></div>
+        ${c.machine?`<div class="jc-field"><div class="jcf-label">מכונה</div><div class="jcf-val">${c.machine}</div></div>`:''}
+      </div>
+      ${c.notes?'<div style="padding:7px 16px;font-size:.84rem;color:var(--gray);border-bottom:1px solid var(--line)"><strong>הערות:</strong> '+c.notes+'</div>':''}
+      ${(c.runs&&c.runs.length)?'<div class="jc-runs">'+c.runs.map(r=>'<span class="run-chip">ריצה '+r.num+': '+r.pages+' עמ\' · '+r.copies.toLocaleString()+' יח\''+(r.machine?' · '+r.machine:'')+'</span>').join('')+'</div>':''}
+      <div class="jc-actions">
+        <select style="font-family:Heebo,sans-serif;font-weight:600;font-size:.82rem;padding:4px 8px;border:1.5px solid #ccc;border-radius:5px;background:white;cursor:pointer"
+          onchange="setStatus(${c.id},this.value)">
+          <option value="pending"    ${c.status==='pending'?'selected':''}>ממתין</option>
+          <option value="inprogress" ${c.status==='inprogress'?'selected':''}>בדפוס</option>
+          <option value="done"       ${c.status==='done'?'selected':''}>הושלם</option>
+        </select>
+        <button class="btn btn-sm btn-gold" onclick="showPrintModal(cards.find(c=>c.id===${c.id}))">🖨️ הדפס</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteCard(${c.id})">מחק</button>
+      </div>
+    </div>`).join('');
+}
+
+// ========== INVENTORY ==========
+/*
+  מבנה פריט מלאי:
+  { id, name, qty, invoices:[{inv, date, qty}], pricePerSheet }
+*/
+
+
+// ========== טעינת Excel — מלאי רונימאר ==========
+function _parseExcelDate(val) {
+  if (!val) return '';
+  // אם מספר — תאריך Excel serial
+  if (typeof val === 'number') {
+    const d = XLSX.SSF.parse_date_code(val);
+    if (d) return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
+  }
+  return String(val).trim();
+}
+
+function loadInventoryXlsb(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array', cellDates: false });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+      // זהה שורת כותרות ועמודות
+      let headerRow = -1;
+      let nameCol = -1, qtyCol = -1, dateCol = -1, invCol = -1, priceCol = -1;
+      const orderNumCol = 1; // עמודה B תמיד = מספר הזמנה (171.xxx)
+      for (let r = 0; r < Math.min(10, rows.length); r++) {
+        const row = rows[r].map(c => String(c).trim());
+        for (let c = 0; c < row.length; c++) {
+          const cell = row[c].toLowerCase();
+          if (nameCol  < 0 && (cell.includes('שם') || cell.includes('פריט') || cell.includes('נייר') || cell.includes('מוצר') || cell === 'name')) nameCol = c;
+          if (qtyCol   < 0 && (cell.includes('כמות') || cell.includes('מלאי') || cell.includes('qty') || cell.includes('quantity'))) qtyCol = c;
+          if (dateCol  < 0 && (cell.includes('תאריך') || cell === 'date')) dateCol = c;
+          if (invCol   < 0 && c !== orderNumCol && (cell.includes('חשבונית') || cell.includes('מסמך') || cell.includes('invoice') || cell.includes('doc'))) invCol = c;
+          if (priceCol < 0 && (cell.includes('מחיר') || cell.includes('price'))) priceCol = c;
+        }
+        if (nameCol >= 0 && qtyCol >= 0) { headerRow = r; break; }
+      }
+      if (nameCol < 0) nameCol = 0;
+      if (qtyCol  < 0) qtyCol  = 2;  // fallback עמודה C = כמות
+      const dataStart = headerRow >= 0 ? headerRow + 1 : 1;
+
+      let added = 0, updated = 0;
+      for (let r = dataStart; r < rows.length; r++) {
+        const row = rows[r];
+        const name = String(row[nameCol] || '').trim();
+        if (!name) continue;
+        const qty      = parseFloat(String(row[qtyCol]  || '0').replace(/,/g,'')) || 0;
+        const date     = dateCol  >= 0 ? _parseExcelDate(row[dateCol])  : '';
+        const orderNum = String(row[orderNumCol] || '').trim(); // עמודה B = מספר הזמנה
+        const inv      = invCol   >= 0 ? String(row[invCol]  || '').trim() : ''; // מספר מסמך/חשבונית
+        const price    = priceCol >= 0 ? (parseFloat(String(row[priceCol]||'0').replace(/,/g,''))||0) : 0;
+
+        let item = inventory.find(it => it.name === name);
+        if (!item) {
+          item = { name, qty: 0, invoices: [] };
+          inventory.push(item);
+          added++;
+        } else {
+          updated++;
+        }
+        // עדכן כמות כוללת — סכום מצטבר
+        item.qty = (item.qty||0) + qty;
+        // הוסף / עדכן רשומת חשבונית
+        if (inv || orderNum || date) {
+          // חפש לפי orderNum (ייחודי) או לפי תאריך
+          const ex = item.invoices.find(x =>
+            (orderNum && x.orderNum === orderNum) ||
+            (date && x.date === date && !x.orderNum && !orderNum)
+          );
+          if (ex) {
+            if (inv)      ex.inv      = inv;
+            if (orderNum) ex.orderNum = orderNum;
+            ex.qty = qty;
+            if (price && !ex.price) ex.price = price;
+          } else {
+            item.invoices.push({ date, inv, orderNum, qty, price: price || 0 });
+          }
+        }
+      }
+      persist();
+      renderInventory();
+      showToast(`✅ עודכנו ${updated} פריטים, נוספו ${added} חדשים`);
+    } catch(err) {
+      alert('שגיאה בקריאת הקובץ: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ========== מלאי בדפוס ==========
+function renderInventoryPress() {
+  const wrap    = document.getElementById('inventory-press-table-wrap');
+  const sumWrap = document.getElementById('inv-press-summary-wrap');
+  if (!wrap) return;
+
+  if (!inventoryPress.length) {
+    if (sumWrap) sumWrap.innerHTML = '';
+    wrap.innerHTML = `<div class="empty-state"><div class="icon">🖨️</div><p>ייבא קובץ Excel או הוסף שורה ידנית</p></div>`;
+    return;
+  }
+
+  // סיכום
+  const lowItems = inventoryPress.filter(it => (it.qty||0) < (it.minQty||0));
+  if (sumWrap) {
+    const totalVal = inventoryPress.reduce((s,it) => s + (it.qty||0)*(it.pricePerUnit||0), 0);
+    sumWrap.innerHTML = `<div class="inv-summary">
+      ${inventoryPress.map(it => {
+        const low = (it.qty||0) < (it.minQty||0);
+        return `<div class="inv-summary-card" style="${low?'border:2px solid #e53935;background:#fff5f5':''}">
+          <div class="inv-summary-name">${escHtml(it.name||'')}</div>
+          <div class="inv-summary-qty" style="${low?'color:#e53935':''}">
+            ${parseInt(it.qty||0).toLocaleString()}${it.unit?' '+it.unit:''}
+            ${low ? '⚠️' : ''}
+          </div>
+          ${it.minQty ? `<div style="font-size:.7rem;color:#aaa">מינ׳: ${parseInt(it.minQty).toLocaleString()}</div>` : ''}
+        </div>`;
+      }).join('')}
+      <div class="inv-total-card">
+        <span class="lbl">סה"כ שווי</span>
+        <span class="val">₪${totalVal.toLocaleString(undefined,{maximumFractionDigits:0})}</span>
+      </div>
+    </div>`;
+  }
+
+  wrap.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:.84rem">
+      <thead>
+        <tr style="background:var(--press);color:white">
+          <th style="padding:8px 12px;text-align:right">שם פריט</th>
+          <th style="padding:8px 8px;text-align:center">כמות</th>
+          <th style="padding:8px 8px;text-align:center">מינימום</th>
+          <th style="padding:8px 8px;text-align:center">יחידה</th>
+          <th style="padding:8px 8px;text-align:center">מחיר/יח׳</th>
+          <th style="padding:8px 8px;text-align:center">עריכה</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${inventoryPress.map((it, i) => {
+          const low = (it.qty||0) < (it.minQty||0);
+          return `<tr style="border-bottom:1px solid #eee;${low?'background:#fff5f5':''}">
+            <td style="padding:6px 12px">
+              <input class="inv-name-edit" value="${escHtml(it.name||'')}"
+                onchange="inventoryPress[${i}].name=this.value;persist();renderInventoryPress()">
+            </td>
+            <td style="padding:6px 8px;text-align:center">
+              <input class="inv-edit" type="number" value="${it.qty||0}"
+                onchange="inventoryPress[${i}].qty=parseFloat(this.value)||0;persist();renderInventoryPress()"
+                style="${low?'border-color:#e53935;color:#e53935':''}">
+            </td>
+            <td style="padding:6px 8px;text-align:center">
+              <input class="inv-edit" type="number" value="${it.minQty||0}"
+                onchange="inventoryPress[${i}].minQty=parseFloat(this.value)||0;persist();renderInventoryPress()">
+            </td>
+            <td style="padding:6px 8px;text-align:center">
+              <input class="inv-edit" type="text" value="${escHtml(it.unit||'')}" placeholder="יח׳"
+                onchange="inventoryPress[${i}].unit=this.value.trim();persist()"
+                style="width:54px">
+            </td>
+            <td style="padding:6px 8px;text-align:center">
+              <input class="inv-edit" type="number" value="${it.pricePerUnit||0}" step="0.01"
+                onchange="inventoryPress[${i}].pricePerUnit=parseFloat(this.value)||0;persist();renderInventoryPress()">
+            </td>
+            <td style="padding:6px 8px;text-align:center">
+              <button class="btn btn-sm btn-danger" onclick="deletePressItem(${i})">✕</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function addInventoryPressItem() {
+  inventoryPress.push({ name: 'פריט חדש', qty: 0, minQty: 0, unit: '', pricePerUnit: 0 });
+  persist();
+  renderInventoryPress();
+}
+
+function deletePressItem(i) {
+  if (!confirm('למחוק פריט זה?')) return;
+  inventoryPress.splice(i, 1);
+  persist();
+  renderInventoryPress();
+  showToast('🗑️ פריט נמחק');
+}
+
+function loadInventoryPressXlsx(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+      let headerRow = -1;
+      let nameCol = -1, qtyCol = -1, minCol = -1, unitCol = -1, priceCol = -1;
+      for (let r = 0; r < Math.min(10, rows.length); r++) {
+        const row = rows[r].map(c => String(c).trim());
+        for (let c = 0; c < row.length; c++) {
+          const cell = row[c].toLowerCase();
+          if (nameCol < 0 && (cell.includes('שם') || cell.includes('פריט') || cell === 'name')) nameCol = c;
+          if (qtyCol  < 0 && (cell.includes('כמות') || cell.includes('qty') || cell.includes('quantity'))) qtyCol = c;
+          if (minCol  < 0 && (cell.includes('מינ') || cell.includes('min'))) minCol = c;
+          if (unitCol < 0 && (cell.includes('יחיד') || cell.includes('unit'))) unitCol = c;
+          if (priceCol < 0 && (cell.includes('מחיר') || cell.includes('price'))) priceCol = c;
+        }
+        if (nameCol >= 0 && qtyCol >= 0) { headerRow = r; break; }
+      }
+      if (nameCol < 0) nameCol = 0;
+      if (qtyCol  < 0) qtyCol  = 1;
+      const dataStart = headerRow >= 0 ? headerRow + 1 : 1;
+
+      let added = 0, updated = 0;
+      for (let r = dataStart; r < rows.length; r++) {
+        const row = rows[r];
+        const name = String(row[nameCol] || '').trim();
+        if (!name) continue;
+        const qty   = parseFloat(String(row[qtyCol]   || '0').replace(/,/g,'')) || 0;
+        const minQty = minCol >= 0 ? (parseFloat(String(row[minCol]||'0').replace(/,/g,''))||0) : 0;
+        const unit  = unitCol  >= 0 ? String(row[unitCol]||'').trim()  : '';
+        const price = priceCol >= 0 ? (parseFloat(String(row[priceCol]||'0').replace(/,/g,''))||0) : 0;
+        const existing = inventoryPress.find(it => it.name === name);
+        if (existing) {
+          existing.qty = qty;
+          if (minQty) existing.minQty = minQty;
+          if (price)  existing.pricePerUnit = price;
+          if (unit)   existing.unit = unit;
+          updated++;
+        } else {
+          inventoryPress.push({ name, qty, minQty, unit, pricePerUnit: price });
+          added++;
+        }
+      }
+      persist();
+      renderInventoryPress();
+      showToast(`✅ עודכנו ${updated} פריטים, נוספו ${added} חדשים`);
+    } catch(err) {
+      alert('שגיאה בקריאת הקובץ: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function renderInventory() {
+  const wrap = document.getElementById('inventory-table-wrap');
+  const sumWrap = document.getElementById('inv-summary-wrap');
+
+  if (!inventory.length) {
+    sumWrap.innerHTML = '';
+    wrap.innerHTML = `<div class="empty-state"><div class="icon">📦</div>
+      <p>טען קובץ xlsb חודשי או הוסף שורה ידנית</p></div>`;
+    return;
+  }
+
+  // מחיר אחרון לפי חשבונית (לכל פריט)
+  function lastInvPrice(item) {
+    const invs = (item.invoices||[]).filter(v=>v.price);
+    return invs.length ? invs[invs.length-1].price : (item.pricePerSheet||0);
+  }
+  // שווי כולל — סכום (כמות × מחיר) לכל חשבונית בנפרד
+  function itemVal(item) {
+    const invs = item.invoices||[];
+    if (invs.length) return invs.reduce((s,inv) => s+(inv.qty||0)*(inv.price||0), 0);
+    return (item.qty||0)*(item.pricePerSheet||0);
+  }
+  const totalVal = inventory.reduce((s,item) => s + itemVal(item), 0);
+  const summaryCards = inventory.map((item,i) => {
+    const val = itemVal(item);
+    const totalQty = (item.invoices||[]).length
+      ? (item.invoices||[]).reduce((s,inv)=>s+(inv.qty||0),0)
+      : (item.qty||0);
+    return `<div class="inv-summary-card">
+      <div class="inv-summary-name">${item.name}</div>
+      <div class="inv-summary-qty">${parseInt(totalQty).toLocaleString()} גיל'</div>
+      ${val ? `<div class="inv-summary-val">₪${val.toLocaleString(undefined,{maximumFractionDigits:0})}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  sumWrap.innerHTML = `<div class="inv-summary">
+    ${summaryCards}
+    <div class="inv-total-card">
+      <span class="lbl">סה"כ שווי מלאי</span>
+      <span class="val">₪${totalVal.toLocaleString(undefined,{maximumFractionDigits:0})}</span>
+    </div>
+  </div>`;
+
+  // בניית טבלה בסגנון Excel — כל חשבונית = שורה, מקובץ לפי סוג נייר
+  let rows = '';
+  inventory.forEach((item, i) => {
+    const invList = item.invoices||[];
+    const itemTotal = (item.qty||0) * lastInvPrice(item);
+    const nameCell = `<input class="inv-name-edit" value="${escHtml(item.name)}"
+      onchange="inventory[${i}].name=this.value;persist();renderInventory()">`;
+
+    if (!invList.length) {
+      // פריט ללא חשבוניות
+      rows += `<tr class="inv-group-row">
+        <td rowspan="1" style="border-right:3px solid var(--gold);background:#fffdf5">${nameCell}</td>
+        <td style="color:#bbb;text-align:center">—</td>
+        <td style="color:#bbb;text-align:center">—</td>
+        <td style="color:#bbb;text-align:center">—</td>
+        <td class="inv-qty ${(item.qty||0)<5000?'low':''}" style="text-align:center">${parseInt(item.qty||0).toLocaleString()}</td>
+        <td><input class="inv-edit" type="number" value="${item.qty||0}"
+          onchange="inventory[${i}].qty=parseInt(this.value)||0;persist();renderInventory()"></td>
+        <td style="vertical-align:middle"><button class="btn btn-sm btn-danger" onclick="deleteInventoryItem(${i})">✕</button></td>
+      </tr>`;
+      return;
+    }
+
+    const totalInvQty = invList.reduce((s,inv)=>s+(inv.qty||0), 0);
+    invList.forEach((inv, j) => {
+      const isFirst = j === 0;
+      const isLast  = j === invList.length - 1;
+      const priceCell = inv.price
+        ? `<span style="color:#2e7d32;font-weight:700;cursor:pointer;border-bottom:1px dashed #2e7d32"
+              onclick="editInvoicePrice(${i},${j})" title="לחץ לעדכון מחיר">
+              ₪${(parseFloat(inv.price)*1000).toFixed(2)}<span style="font-weight:400;font-size:.72rem">/אלף</span>
+           </span>`
+        : `<span style="color:#bbb;cursor:pointer;font-size:.78rem" onclick="editInvoicePrice(${i},${j})">+ הוסף מחיר</span>`;
+
+      const rowVal = (inv.qty||0) * (inv.price||0);
+      const rowValStr = rowVal > 0
+        ? `<span style="color:#888;font-size:.72rem">₪${rowVal.toLocaleString(undefined,{maximumFractionDigits:0})}</span>` : '';
+
+      if (isFirst) {
+        rows += `<tr style="border-top:2px solid #e0d8c0">
+          <td rowspan="${invList.length}"
+            style="border-right:3px solid var(--gold);background:#fffdf5;vertical-align:middle;font-weight:700">
+            ${nameCell}
+          </td>`;
+      } else {
+        rows += `<tr>`;
+      }
+
+      rows += `
+        <td style="text-align:center;font-size:.78rem;color:#888;white-space:nowrap">${inv.date||'—'}</td>
+        <td style="text-align:center;font-size:.8rem;line-height:1.4">
+          ${inv.inv ? `<div style="font-weight:700;color:var(--press)">${inv.inv}</div>` : ''}
+          ${inv.orderNum ? `<div style="font-size:.72rem;color:#888">הזמנה: ${inv.orderNum}</div>` : (!inv.inv ? '<span style="color:#bbb">—</span>' : '')}
+        </td>
+        <td style="text-align:center">${priceCell}</td>
+        <td style="text-align:center;font-size:.85rem;font-weight:700;color:#333;cursor:pointer"
+            onclick="editInvoiceQty(${i},${j})" title="לחץ לעדכון כמות">
+          ${(inv.qty||0)>0 ? parseInt(inv.qty).toLocaleString()+' <span style="font-size:.7rem;font-weight:400;color:#aaa">גיל\'</span>' : '<span style="color:#bbb;font-size:.78rem">+ כמות</span>'}
+          <div style="margin-top:2px">${rowValStr}</div>
+        </td>
+        <td style="text-align:center;vertical-align:middle">
+          <button onclick="deleteInvoiceEntry(${i},${j})"
+            style="background:none;border:none;color:#ddd;font-size:.9rem;cursor:pointer;padding:2px 5px"
+            onmouseover="this.style.color='#c62828'" onmouseout="this.style.color='#ddd'" title="מחק חשבונית זו">✕</button>
+        </td>`;
+
+      if (isFirst) {
+        rows += `
+          <td rowspan="${invList.length}" class="inv-qty ${totalInvQty<5000?'low':''}"
+            style="text-align:center;vertical-align:middle;font-size:1rem">
+            ${parseInt(totalInvQty).toLocaleString()}
+            <div style="font-size:.66rem;font-weight:400;color:#aaa">גיל'</div>
+          </td>
+          <td rowspan="${invList.length}" style="vertical-align:middle">
+            <input class="inv-edit" type="number" value="${totalInvQty}"
+              title="ערוך כמות ידנית"
+              onchange="inventory[${i}].qty=parseInt(this.value)||0;persist();renderInventory()">
+          </td>
+          <td rowspan="${invList.length}" style="vertical-align:middle">
+            <button class="btn btn-sm btn-danger" onclick="deleteInventoryItem(${i})">✕</button>
+          </td>`;
+      }
+
+      rows += `</tr>`;
+    });
+  });
+
+  const totalRow = `
+    <tfoot><tr style="background:#f5f0e8;font-weight:900;border-top:2px solid #c0b090">
+      <td colspan="4" style="padding:10px 14px;color:var(--gray);font-size:.82rem">${inventory.length} סוגי נייר</td>
+      <td colspan="3" style="padding:10px 14px;color:#2e7d32;font-size:1rem">
+        ₪${totalVal.toLocaleString(undefined,{maximumFractionDigits:0})}
+        <span style="font-size:.65rem;font-weight:400;color:#aaa;margin-right:6px">שווי כולל</span>
+      </td>
+    </tr></tfoot>`;
+
+  wrap.innerHTML = `<table class="inv-table" style="width:100%">
+    <thead><tr>
+      <th style="min-width:260px;text-align:right">שם נייר</th>
+      <th style="text-align:center;min-width:90px">תאריך</th>
+      <th style="text-align:center;min-width:120px">מסמך / חשבונית</th>
+      <th style="text-align:center;min-width:130px">מחיר / אלף גיל'</th>
+      <th style="text-align:center;min-width:110px">כמות בחשבונית</th>
+      <th style="width:30px"></th>
+      <th style="text-align:center;min-width:100px">כמות במלאי</th>
+      <th style="min-width:90px">עדכן</th>
+      <th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    ${totalRow}
+  </table>`;
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+function deleteInventoryItem(i) {
+  if (!confirm('למחוק פריט זה מהמלאי?')) return;
+  inventory.splice(i, 1);
+  persist();
+  renderInventory();
+  showToast('🗑️ פריט נמחק');
+}
+
+function deleteInvoiceEntry(i, j) {
+  if (!confirm('למחוק חשבונית זו?')) return;
+  inventory[i].invoices.splice(j, 1);
+  persist();
+  renderInventory();
+  showToast('🗑️ חשבונית נמחקה');
+}
+
+
+function editInvoicePrice(i, j) {
+  const cur = inventory[i].invoices[j].price || 0;
+  const val = prompt('מחיר לאלף גיליונות (₪):', cur ? (parseFloat(cur)*1000).toFixed(2) : '');
+  if (val === null) return;
+  const num = parseFloat(val.replace(/,/g,''));
+  if (isNaN(num)) { alert('מספר לא תקין'); return; }
+  inventory[i].invoices[j].price = num / 1000;
+  persist();
+  renderInventory();
+}
+
+function editInvoiceQty(i, j) {
+  const cur = inventory[i].invoices[j].qty || 0;
+  const val = prompt('כמות גיליונות בחשבונית:', cur);
+  if (val === null) return;
+  const num = parseInt(val.replace(/,/g,''));
+  if (isNaN(num)) { alert('מספר לא תקין'); return; }
+  inventory[i].invoices[j].qty = num;
+  persist();
+  renderInventory();
+}
+
+function addManualInvoice(i) {
+  const inv      = prompt('מספר מסמך / חשבונית (111.xxx):', '');
+  if (inv === null) return;
+  const orderNum = prompt('מספר הזמנה (171.xxx) — ריק לדלג:', '');
+  if (orderNum === null) return;
+  const dateStr  = prompt('תאריך (YYYY-MM-DD):', new Date().toISOString().slice(0,10));
+  if (dateStr === null) return;
+  const qtyStr   = prompt('כמות גיליונות:', '0');
+  if (qtyStr === null) return;
+  const priceStr = prompt('מחיר לאלף גיליונות (₪) — ריק לדלג:', '');
+  const qty   = parseInt(qtyStr.replace(/,/g,''))   || 0;
+  const price = priceStr ? ((parseFloat(priceStr.replace(/,/g,''))||0) / 1000) : 0;
+  inventory[i].invoices.push({ date: dateStr, inv, orderNum, qty, price });
+  persist();
+  renderInventory();
+  showToast('✅ חשבונית נוספה');
+}
+
+function printInventoryWarehouse() {
+  if (!inventory.length) { showToast('אין פריטים למלאי'); return; }
+  const totalVal = inventory.reduce((s,it) => s + (it.qty||0)*(it.pricePerSheet||0), 0);
+  const rows = inventory.map(it => {
+    const val = (it.qty||0)*(it.pricePerSheet||0);
+    const lastInv = (it.invoices||[]).slice(-1)[0];
+    return `<tr>
+      <td>${it.name}</td>
+      <td style="text-align:left">${parseInt(it.qty||0).toLocaleString()}</td>
+      <td style="text-align:left">${it.pricePerSheet ? '₪'+it.pricePerSheet.toFixed(4) : '—'}</td>
+      <td style="text-align:left">${val ? '₪'+val.toLocaleString(undefined,{maximumFractionDigits:0}) : '—'}</td>
+      <td>${lastInv ? lastInv.inv+(lastInv.date?' ('+lastInv.date+')':'') : '—'}</td>
+    </tr>`;
+  }).join('');
+  const today = new Date().toLocaleDateString('he-IL');
+  const w = window.open('','_blank','width=900,height=700');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head>
+    <meta charset="utf-8">
+    <title>מלאי רונימאר — ${today}</title>
+    <style>
+      body{font-family:Heebo,Arial,sans-serif;margin:30px;color:#1a1a2e}
+      h1{font-size:1.3rem;margin-bottom:4px}
+      .sub{font-size:.85rem;color:#666;margin-bottom:20px}
+      table{width:100%;border-collapse:collapse;font-size:.88rem}
+      th{background:#1a1a4e;color:#f0c040;padding:9px 12px;text-align:right}
+      td{padding:7px 12px;border-bottom:1px solid #e0d8cc}
+      tr:nth-child(even) td{background:#fafaf8}
+      .total{font-weight:800;font-size:1rem;text-align:left;padding:10px 12px;background:#f5f0e8;border-top:2px solid #1a1a4e}
+      @media print{body{margin:10px}}
+    </style>
+  </head><body>
+    <h1>🏭 מלאי במחסן רונימאר</h1>
+    <div class="sub">תאריך הדפסה: ${today} &nbsp;|&nbsp; סה"כ פריטים: ${inventory.length}</div>
+    <table>
+      <thead><tr><th>שם נייר</th><th>כמות (גיל')</th><th>מחיר/גיל'</th><th>שווי</th><th>חשבונית אחרונה</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="total">סה"כ שווי מלאי: ₪${totalVal.toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+    <script>window.onload=()=>window.print()<\/script>
+  </body></html>`);
+  w.document.close();
+}
+
+// ========== INV SUB-TABS ==========
+function switchInvTab(tab) {
+  ['warehouse','press','logs'].forEach(t => {
+    document.getElementById('inv-section-'+t).style.display = t===tab ? '' : 'none';
+    document.getElementById('invtab-'+t).classList.toggle('active', t===tab);
+  });
+  if (tab==='press') renderInventoryPress();
+  if (tab==='logs')  renderInvoiceLogs();
+}
+
+// ========== היסטוריית מסמכים ==========
+function renderInvoiceLogs() {
+  const wrap = document.getElementById('invoice-logs-wrap');
+  if (!wrap) return;
+  if (!invoiceLogs.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="icon">📋</div><p>טרם הועלו מסמכים</p></div>`;
+    return;
+  }
+  wrap.innerHTML = invoiceLogs.map((log, i) => {
+    const itemRows = (log.items||[]).map(it => `
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0eee8;font-size:.8rem;gap:8px;flex-wrap:wrap">
+        <span style="color:var(--press);font-weight:700;flex:1">${it.name}</span>
+        ${!log.priceOnly && it.qty ? `<span style="color:var(--gray)">${parseInt(it.qty).toLocaleString()} גיל'</span>` : ''}
+        ${it.price_per_sheet ? `<span style="color:#2e7d32;font-weight:700">₪${parseFloat(it.price_per_sheet).toFixed(4)}/גיל'</span>` : ''}
+        ${it.price_total ? `<span style="color:#555">₪${Number(it.price_total).toLocaleString(undefined,{maximumFractionDigits:0})}</span>` : ''}
+      </div>`).join('');
+
+    return `<div style="background:white;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:12px;overflow:hidden">
+      <div style="background:var(--tpl-bg);padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:800;color:var(--press);font-size:.94rem">
+            ${log.doc_type||'מסמך'} ${log.doc_number ? 'מס\' <strong>'+log.doc_number+'</strong>' : ''}
+            ${log.priceOnly ? '<span style="background:#fff3e0;color:#e65100;border-radius:4px;padding:1px 7px;font-size:.7rem;font-weight:800;margin-right:6px">מחיר בלבד</span>' : ''}
+          </div>
+          <div style="font-size:.78rem;color:var(--gray);margin-top:2px">
+            ${[log.supplier,log.date].filter(Boolean).join(' · ')}
+            ${log.total_ils ? ' · סה"כ: <strong style="color:#2e7d32">₪'+Number(log.total_ils).toLocaleString(undefined,{maximumFractionDigits:0})+'</strong>' : ''}
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+          <button onclick="reloadInvoiceToInventory(${i})" class="btn btn-sm btn-primary" title="טען מחדש — הוסף כמויות למלאי">🔄 טען למלאי</button>
+          ${!log.priceOnly && !log.undone && (log.items||[]).some(it=>it.qty>0) ? `
+          <button onclick="undoInvoiceQty(${i})" class="btn btn-sm btn-tpl" title="הסר כמויות שנוספו ממסמך זה">↩️ בטל כמויות</button>` : ''}
+          ${log.undone ? '<span style="font-size:.72rem;color:#888;white-space:nowrap">✓ כמויות בוטלו</span>' : ''}
+          <button onclick="deleteInvoiceLog(${i})" style="background:none;border:none;color:#ccc;font-size:1.1rem;cursor:pointer;padding:0"
+            onmouseover="this.style.color='#c62828'" onmouseout="this.style.color='#ccc'" title="מחק מהיסטוריה">🗑️</button>
+        </div>
+      </div>
+      <div style="padding:8px 16px 12px">${itemRows}</div>
+    </div>`;
+  }).join('');
+}
+
+function reloadInvoiceToInventory(i) {
+  const log = invoiceLogs[i];
+  if (!log) return;
+  const items = log.items||[];
+  if (!items.length) { alert('אין פריטים במסמך זה'); return; }
+
+  // Preview what will happen — find matches first
+  const invKey = log.doc_number || String(log.id);
+  const preview = items.map(it => {
+    const pps = parseFloat(it.price_per_sheet) || parseFloat(it.price) || 0;
+    const idx = _smartMatchInv(it.name);
+    const matchName = idx >= 0 ? inventory[idx].name : '⚠️ לא נמצא';
+    const qtyStr  = (it.qty||0) > 0 ? `+${parseInt(it.qty).toLocaleString()} גיל'` : 'מחיר בלבד';
+    const priceStr = pps ? ` | ₪${(pps*1000).toFixed(2)}/אלף` : '';
+    return `• ${it.name} → ${matchName}: ${qtyStr}${priceStr}`;
+  });
+  if (!confirm(`יטענו הנתונים הבאים:\n${preview.join('\n')}\n\nלהמשיך?`)) return;
+
+  let matched = 0, unmatched = [];
+  items.forEach(it => {
+    const pps = parseFloat(it.price_per_sheet) || parseFloat(it.price) || 0;
+    const idx = _smartMatchInv(it.name);
+    if (idx < 0) { unmatched.push(it.name); return; }
+    matched++;
+    if ((it.qty||0) > 0) {
+      inventory[idx].qty = (inventory[idx].qty||0) + it.qty;
+    }
+    if (pps) {
+      if (!inventory[idx].invoices) inventory[idx].invoices = [];
+      const existing = inventory[idx].invoices.find(v => v.inv === invKey);
+      if (existing) {
+        existing.price = pps;
+      } else {
+        inventory[idx].invoices.push({ inv: invKey, date: log.date, qty: it.qty||0, price: pps });
+      }
+    }
+  });
+
+  invoiceLogs[i].undone = false;
+  // עדכן localStorage ישירות — לפני Firebase כדי ש-render יקרא נתונים עדכניים
+  localStorage.setItem('solanInventory', JSON.stringify(inventory));
+  localStorage.setItem('solanInvoiceLogs', JSON.stringify(invoiceLogs));
+  persist();
+  renderInvoiceLogs();
+  renderInventory();
+  const msg = matched > 0
+    ? `✓ עודכנו ${matched} פריטים`
+    : '⚠️ לא נמצאו התאמות במלאי';
+  const extra = unmatched.length ? `\n\nלא נמצאו:\n${unmatched.join('\n')}` : '';
+  alert(msg + extra);
+}
+
+// match helper — uses _smartMatch if available, otherwise local logic
+function _smartMatchInv(name) {
+  if (typeof _smartMatch === 'function') {
+    const r = _smartMatch(name);
+    if (r >= 0) return r;
+  }
+  const n = (name||'').toLowerCase().replace(/['"*]/g,'');
+  let best = -1, bestScore = 0;
+  inventory.forEach((inv, idx) => {
+    const iname = inv.name.toLowerCase().replace(/['"*]/g,'');
+    const kws = n.split(/[\s\/,]+/).filter(w=>w.length>1);
+    let score = 0;
+    kws.forEach(kw => { if (iname.includes(kw)) score++; });
+    if (iname.includes(n.slice(0,8)) || n.includes(iname.slice(0,8))) score += 3;
+    if (score > bestScore) { bestScore = score; best = idx; }
+  });
+  return bestScore >= 2 ? best : -1;
+}
+
+function _smartMatch(itemName) {
+  if (!inventory.length) return -1;
+  const n = itemName.toLowerCase().replace(/['"*]/g,'');
+  const kws = n.split(/[\s\/,]+/).filter(w => w.length > 1);
+  let best = -1, bestScore = 0;
+  inventory.forEach((inv, idx) => {
+    const iname = inv.name.toLowerCase().replace(/['"*]/g,'');
+    let score = 0;
+    kws.forEach(kw => { if (iname.includes(kw)) score++; });
+    if (iname.includes(n.slice(0,10)) || n.includes(iname.slice(0,10))) score += 3;
+    if (score > bestScore) { bestScore = score; best = idx; }
+  });
+  return bestScore >= 2 ? best : -1;
+}
+
+// ========== QUOTES / ORDERS MODULE ==========
+const SOLAN_INFO = {
+  name:    'סולן הדפסות בע"מ',
+  slogan:  'הבית שלך להדפסות',
+  address: 'משה שוולב 7, ת.ד 3487, פתח תקווה',
+  tel:     '03-9043535',
+  fax:     '03-9045511',
+  vat_id:  '511485575',
+  email:   'contact@solanprinting.co.il',
+  website: 'www.solanprinting.co.il',
+  bank:    'בנק הפועלים | סניף 552 | חשבון 210625'
+};
+
+function _solanLogoB64() {
+  return localStorage.getItem('solanLogo') || '';
+}
+
+function nextQuoteNum(type) {
+  const prefix = type === 'order' ? 'HZ' : 'HP';
+  const existing = quotes.filter(q => q.type === type).map(q => {
+    const m = (q.docNum||'').match(/(\d+)$/);
+    return m ? parseInt(m[1]) : 0;
+  });
+  const next = existing.length ? Math.max(...existing) + 1 : 1;
+  return prefix + String(next).padStart(5, '0');
+}
+
+let _quoteEditId = null;
+let _quotesEmpFilter = '';
+let _quoteItems = [];
+
+// ---- Customer autocomplete ----
+function filterCustomerAC(val) {
+  const ac = document.getElementById('q-customer-ac');
+  if (!ac) return;
+  const v = (val||'').toLowerCase();
+  const matches = customers.filter(c => c.name.toLowerCase().includes(v) || (c.email||'').toLowerCase().includes(v));
+  if (!matches.length) { ac.style.display='none'; return; }
+  ac.innerHTML = matches.map(c => {
+    const safeName  = c.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const safeEmail = (c.email||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const safePhone = (c.phone||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const safeAddr  = (c.address||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div
+      onmousedown="event.preventDefault()"
+      onclick="pickCustomerForQuote('${safeName}','${safeEmail}','${safePhone}','${safeAddr}')"
+      style="padding:8px 12px;cursor:pointer;font-size:.85rem;border-bottom:1px solid #f0f0f0"
+      onmouseover="this.style.background='#f0f4ff'" onmouseout="this.style.background=''">
+      <div style="font-weight:700">${c.name}</div>
+      ${c.email ? `<div style="font-size:.72rem;color:#888">${c.email}</div>` : ''}
+      ${c.phone ? `<div style="font-size:.72rem;color:#aaa">${c.phone}</div>` : ''}
+    </div>`;
+  }).join('');
+  ac.style.display='block';
+}
+function hideCustomerAC() {
+  const ac = document.getElementById('q-customer-ac');
+  if (ac) ac.style.display='none';
+}
+function pickCustomerForQuote(name, email, phone, address) {
+  const inp = document.getElementById('q-customer');
+  if (inp) inp.value = name;
+  const em = document.getElementById('q-customer-email');
+  if (em) em.value = email || '';
+  hideCustomerAC();
+}
+
+function openQuoteForm(type, id) {
+  _quoteEditId = id || null;
+  _quoteItems = [];
+  const modal = document.getElementById('quote-modal');
+  const titleEl = document.getElementById('quote-modal-title');
+  titleEl.textContent = type === 'order'
+    ? (_quoteEditId ? 'עריכת הזמנה' : 'הזמנה חדשה')
+    : (_quoteEditId ? 'עריכת הצעת מחיר' : 'הצעת מחיר חדשה');
+  modal.dataset.type = type;
+
+  const today = new Date().toISOString().slice(0,10);
+  if (_quoteEditId) {
+    const q = quotes.find(x => x.id === _quoteEditId);
+    if (q) {
+      document.getElementById('q-customer').value = q.customer || '';
+      document.getElementById('q-customer-email').value = q.customerEmail || '';
+      document.getElementById('q-date').value = q.date || today;
+      document.getElementById('q-docnum').value = q.docNum || '';
+      document.getElementById('q-notes').value = q.notes || '';
+      document.getElementById('q-vat-pct').value = q.vatPct !== undefined ? q.vatPct : 18;
+      document.getElementById('q-employee').value = q.employee || '';
+      _quoteItems = JSON.parse(JSON.stringify(q.items || []));
+    }
+  } else {
+    document.getElementById('q-customer').value = '';
+    document.getElementById('q-customer-email').value = '';
+    document.getElementById('q-date').value = today;
+    document.getElementById('q-docnum').value = nextQuoteNum(type);
+    document.getElementById('q-notes').value = '';
+    document.getElementById('q-vat-pct').value = 18;
+    document.getElementById('q-employee').value = '';
+    _quoteItems = [{ desc: '', qty: 1, price: 0 }];
+  }
+  renderQuoteItems();
+  calcQuoteTotals();
+  modal.classList.add('open');
+}
+
+function closeQuoteModal() {
+  document.getElementById('quote-modal').classList.remove('open');
+}
+
+function addQuoteItem() {
+  _quoteItems.push({ desc: '', qty: 1, price: 0 });
+  renderQuoteItems();
+  calcQuoteTotals();
+}
+
+function removeQuoteItem(i) {
+  _quoteItems.splice(i, 1);
+  if (!_quoteItems.length) _quoteItems.push({ desc: '', qty: 1, price: 0 });
+  renderQuoteItems();
+  calcQuoteTotals();
+}
+
+function renderQuoteItems() {
+  const wrap = document.getElementById('q-items-wrap');
+  if (!wrap) return;
+  const hdr = `<div style="display:grid;grid-template-columns:1fr 80px 100px 36px;gap:6px;margin-bottom:4px;font-size:.72rem;font-weight:700;color:#888;padding:0 2px">
+    <span>תיאור</span><span style="text-align:center">כמות</span><span style="text-align:center">מחיר יחידה (₪)</span><span></span>
+  </div>`;
+  const rows = _quoteItems.map((it, i) => `
+    <div style="display:grid;grid-template-columns:1fr 80px 100px 36px;gap:6px;margin-bottom:6px">
+      <input class="fi" value="${(it.desc||'').replace(/"/g,'&quot;')}" placeholder="תיאור שירות / מוצר"
+        oninput="_quoteItems[${i}].desc=this.value" style="margin:0;font-size:.84rem">
+      <input class="fi" type="number" value="${it.qty||1}" min="1"
+        oninput="_quoteItems[${i}].qty=parseFloat(this.value)||0;calcQuoteTotals()" style="margin:0;font-size:.84rem;text-align:center">
+      <input class="fi" type="number" value="${it.price||0}" min="0" step="0.01"
+        oninput="_quoteItems[${i}].price=parseFloat(this.value)||0;calcQuoteTotals()" style="margin:0;font-size:.84rem;text-align:center">
+      <button onclick="removeQuoteItem(${i})" style="background:none;border:none;color:#e07070;font-size:1.1rem;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>`).join('');
+  wrap.innerHTML = hdr + rows;
+}
+
+function calcQuoteTotals() {
+  const subtotal = _quoteItems.reduce((s, it) => s + (it.qty||0) * (it.price||0), 0);
+  const vatPct = parseFloat(document.getElementById('q-vat-pct')?.value) || 0;
+  const vatAmt = subtotal * vatPct / 100;
+  const total = subtotal + vatAmt;
+  const fmt = v => '₪' + v.toLocaleString('he-IL', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const s = document.getElementById('q-subtotal');
+  const va = document.getElementById('q-vat-amt');
+  const t = document.getElementById('q-total');
+  if (s) s.textContent = fmt(subtotal);
+  if (va) va.textContent = fmt(vatAmt);
+  if (t) t.textContent = fmt(total);
+}
+
+function _buildQuoteObj() {
+  const modal = document.getElementById('quote-modal');
+  const type = modal.dataset.type || 'quote';
+  const id = _quoteEditId || ('q_' + Date.now());
+  const docNum = document.getElementById('q-docnum').value.trim() || nextQuoteNum(type);
+  const customer = document.getElementById('q-customer').value.trim();
+  const customerEmail = document.getElementById('q-customer-email').value.trim();
+  const date = document.getElementById('q-date').value;
+  const notes = document.getElementById('q-notes').value.trim();
+  const vatPct = parseFloat(document.getElementById('q-vat-pct').value) || 0;
+  const items = _quoteItems.filter(it => it.desc || it.price);
+  const employee = document.getElementById('q-employee').value.trim();
+  return { id, type, docNum, customer, customerEmail, employee, date, notes, items, vatPct, ts: Date.now() };
+}
+
+function saveQuote() {
+  const q = _buildQuoteObj();
+  const idx = quotes.findIndex(x => x.id === q.id);
+  if (idx >= 0) quotes[idx] = q; else quotes.push(q);
+  persist();
+  closeQuoteModal();
+  switchTab('quotes');
+}
+
+function saveAndSendQuote() {
+  const q = _buildQuoteObj();
+  const idx = quotes.findIndex(x => x.id === q.id);
+  if (idx >= 0) quotes[idx] = q; else quotes.push(q);
+  _quoteEditId = q.id;
+  persist();
+  closeQuoteModal();
+
+  const typeHeb  = q.type === 'order' ? 'הזמנה' : 'הצעת מחיר';
+  const toEmail  = q.customerEmail || '';
+  const subject  = encodeURIComponent(typeHeb + ' מספר ' + (q.docNum||'') + ' — ' + SOLAN_INFO.name);
+  const mailBody = encodeURIComponent('שלום ' + (q.customer||'') + ',\n\nמצורפת ' + typeHeb + ' מספר ' + (q.docNum||'') + '.\n\nבברכה,\n' + SOLAN_INFO.name);
+
+  // בנה את ה-HTML של המסמך
+  showQuotePreview(q.id);
+  setTimeout(() => {
+    const body = document.getElementById('quote-print-body')?.innerHTML || '';
+    const win = window.open('', '_blank', 'width=850,height=1100');
+    if (!win) { alert('חסום פופאפ — אפשר פופאפים לדף זה'); return; }
+    win.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8">
+      <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+      <style>body{margin:0;padding:0;font-family:Heebo,Arial,sans-serif;direction:rtl}@media print{body{margin:0}}</style>
+      </head><body>${body}</body></html>`);
+    win.document.close();
+    win.focus();
+    // פתח מייל אחרי שהמשתמש סגר את חלון השמירה
+    win.onafterprint = () => {
+      win.close();
+      setTimeout(() => { location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + mailBody; }, 300);
+    };
+    setTimeout(() => win.print(), 700);
+  }, 400);
+}
+
+function downloadAndEmailQuoteDoc_pdfOnly(qid, onDone) {
+  if (onDone) onDone();
+}
+
+
+function saveAndPreviewQuote() {
+  const q = _buildQuoteObj();
+  const idx = quotes.findIndex(x => x.id === q.id);
+  if (idx >= 0) quotes[idx] = q; else quotes.push(q);
+  _quoteEditId = q.id;
+  persist();
+  closeQuoteModal();
+  showQuotePreview(q.id);
+}
+
+function setEmpFilter(emp) {
+  _quotesEmpFilter = emp;
+  document.querySelectorAll('.emp-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.emp === emp);
+  });
+  renderQuotesList();
+}
+
+function renderQuotesList() {
+  const el = document.getElementById('quotes-list');
+  if (!el) return;
+  const filtered = _quotesEmpFilter
+    ? quotes.filter(q => q.employee === _quotesEmpFilter)
+    : quotes;
+  if (!filtered.length) {
+    el.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px 0;font-size:.95rem">אין מסמכים' + (_quotesEmpFilter ? ' לעובד זה' : ' עדיין') + '.<br>צור הצעת מחיר או הזמנה חדשה.</div>';
+    return;
+  }
+  const sorted = [...filtered].sort((a,b) => (b.ts||0)-(a.ts||0));
+  el.innerHTML = sorted.map(q => {
+    const subtotal = (q.items||[]).reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);
+    const vatAmt = subtotal * (q.vatPct||0) / 100;
+    const total = subtotal + vatAmt;
+    const typeLabel = q.type === 'order' ? '📋 הזמנה' : '💰 הצעת מחיר';
+    const typeBg   = q.type === 'order' ? '#e8f5e9' : '#fff8e7';
+    const typeColor = q.type === 'order' ? '#2e7d32' : '#856d1a';
+    const empBadge = q.employee ? `<span style="background:#e8f0ff;color:var(--press);padding:1px 7px;border-radius:10px;font-size:.73rem;font-weight:700;margin-right:4px">👤 ${q.employee}</span>` : '';
+    return `<div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px">
+        <div style="font-weight:700;font-size:.95rem;color:var(--press)">${q.customer || '(ללא לקוח)'}</div>
+        <div style="font-size:.78rem;color:#888;margin-top:2px">${q.date || ''} · <span style="background:${typeBg};color:${typeColor};padding:1px 7px;border-radius:10px;font-size:.73rem;font-weight:700">${typeLabel}</span> ${empBadge}</div>
+        <div style="font-size:.78rem;color:#aaa;margin-top:1px">${q.docNum || ''}</div>
+      </div>
+      <div style="font-size:1.05rem;font-weight:900;color:var(--press);min-width:90px;text-align:left">
+        ₪${total.toLocaleString('he-IL',{minimumFractionDigits:2,maximumFractionDigits:2})}
+      </div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-tpl" onclick="showQuotePreview('${q.id}')" style="font-size:.78rem;padding:5px 10px">👁️ תצוגה</button>
+        <button class="btn btn-primary" onclick="openQuoteForm('${q.type}','${q.id}')" style="font-size:.78rem;padding:5px 10px">✏️ עריכה</button>
+        <button onclick="deleteQuote('${q.id}')" style="background:none;border:1px solid #e0a0a0;border-radius:6px;color:#c0392b;font-size:.78rem;padding:5px 10px;cursor:pointer">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function deleteQuote(id) {
+  if (!confirm('למחוק מסמך זה?')) return;
+  quotes = quotes.filter(q => q.id !== id);
+  persist();
+  renderQuotesList();
+}
+
+function showQuotePreview(id) {
+  const q = quotes.find(x => x.id === id);
+  if (!q) return;
+  const subtotal = (q.items||[]).reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);
+  const vatAmt = subtotal * (q.vatPct||0) / 100;
+  const total = subtotal + vatAmt;
+  const fmt = v => '₪' + v.toLocaleString('he-IL',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const logo = _solanLogoB64();
+  const typeHeb = q.type === 'order' ? 'הזמנה' : 'הצעת מחיר';
+
+  const itemRows = (q.items||[]).map((it,i) => `
+    <tr style="background:${i%2===0?'#fff':'#f9f9fb'}">
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:right">${it.desc||''}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center">${it.qty||0}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center">${fmt(it.price||0)}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center">${fmt((it.qty||0)*(it.price||0))}</td>
+    </tr>`).join('');
+
+  const html = `<div style="font-family:'Heebo',Arial,sans-serif;direction:rtl;max-width:720px;margin:0 auto;padding:0;color:#222">
+    <!-- header -->
+    <div style="background:#1a3a6b;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;border-radius:0">
+      <div style="color:#fff">
+        <div style="font-size:1.5rem;font-weight:900">${SOLAN_INFO.name}</div>
+        <div style="font-size:.85rem;opacity:.85;margin-top:2px">${SOLAN_INFO.slogan}</div>
+      </div>
+      ${logo ? `<img src="${logo}" style="height:65px;width:65px;object-fit:contain;border-radius:6px;background:#fff;padding:3px">` : ''}
+    </div>
+    <!-- sub header info -->
+    <div style="background:#15305a;padding:7px 28px;display:flex;gap:24px;flex-wrap:wrap">
+      <span style="color:#a8c8f0;font-size:.75rem">📞 ${SOLAN_INFO.tel}</span>
+      <span style="color:#a8c8f0;font-size:.75rem">📠 ${SOLAN_INFO.fax}</span>
+      <span style="color:#a8c8f0;font-size:.75rem">📧 ${SOLAN_INFO.email}</span>
+      <span style="color:#a8c8f0;font-size:.75rem">🌐 ${SOLAN_INFO.website}</span>
+    </div>
+    <!-- doc title box -->
+    <div style="padding:18px 28px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a3a6b">
+      <div>
+        <div style="font-size:1.25rem;font-weight:900;color:#1a3a6b">${typeHeb}</div>
+        <div style="font-size:.82rem;color:#555;margin-top:4px">מספר: <strong>${q.docNum||''}</strong></div>
+        ${q.employee ? `<div style="font-size:.82rem;color:#555">עובד: <strong>${q.employee}</strong></div>` : ''}
+        <div style="font-size:.82rem;color:#555">תאריך: <strong>${q.date||''}</strong></div>
+        ${q.notes ? `<div style="font-size:.79rem;color:#777;margin-top:4px">הערות: ${q.notes}</div>` : ''}
+      </div>
+      <div style="background:#f0f4ff;border:1.5px solid #b0c8e8;border-radius:8px;padding:10px 16px;min-width:200px">
+        <div style="font-size:.72rem;font-weight:700;color:#1a3a6b;margin-bottom:4px">לכבוד:</div>
+        <div style="font-size:.95rem;font-weight:700">${q.customer||'—'}</div>
+        <div style="font-size:.78rem;color:#555;margin-top:3px">ע.מ. / ח.פ.: ____________</div>
+        <div style="font-size:.78rem;color:#555">כתובת: ________________________</div>
+      </div>
+    </div>
+    <!-- items table -->
+    <div style="padding:0 28px">
+      <table style="width:100%;border-collapse:collapse;margin-top:14px">
+        <thead>
+          <tr style="background:#1a3a6b">
+            <th style="padding:9px 10px;color:#fff;text-align:right;font-size:.82rem">תיאור</th>
+            <th style="padding:9px 10px;color:#fff;text-align:center;font-size:.82rem;width:70px">כמות</th>
+            <th style="padding:9px 10px;color:#fff;text-align:center;font-size:.82rem;width:110px">מחיר יחידה</th>
+            <th style="padding:9px 10px;color:#fff;text-align:center;font-size:.82rem;width:110px">סה"כ</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+      </table>
+    </div>
+    <!-- totals -->
+    <div style="padding:14px 28px;display:flex;justify-content:flex-end">
+      <div style="min-width:260px">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:.88rem">
+          <span style="color:#555">סה"כ לפני מע"מ:</span><strong>${fmt(subtotal)}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:.88rem">
+          <span style="color:#555">מע"מ (${q.vatPct||0}%):</span><strong>${fmt(vatAmt)}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:1.05rem;font-weight:900;color:#1a3a6b;border-top:2px solid #1a3a6b;margin-top:4px">
+          <span>סה"כ לתשלום:</span><span>${fmt(total)}</span>
+        </div>
+      </div>
+    </div>
+    <!-- validity / signature -->
+    <div style="padding:8px 28px 14px;font-size:.78rem;color:#777">
+      ${q.type==='quote' ? '<div>הצעת מחיר זו בתוקף ל-30 יום ממועד הוצאתה.</div>' : ''}
+      <div style="margin-top:18px;display:flex;gap:60px">
+        <div>חתימת לקוח: ________________</div>
+        <div>חותמת וחתימה: ________________</div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div style="background:#f0f4ff;border-top:2px solid #b0c8e8;padding:10px 28px;font-size:.73rem;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <span>${SOLAN_INFO.address} | ע.מ. ${SOLAN_INFO.vat_id}</span>
+      <span>${SOLAN_INFO.bank}</span>
+    </div>
+  </div>`;
+
+  document.getElementById('quote-print-body').innerHTML = html;
+  document.getElementById('qpm-title').textContent = `${typeHeb} — ${q.docNum||''} — ${q.customer||''}`;
+  // store id for email button
+  const emailBtn = document.getElementById('qpm-email-btn');
+  if (emailBtn) emailBtn.dataset.qid = id;
+  const dlBtn = document.getElementById('qpm-dl-btn'); if (dlBtn) dlBtn.dataset.qid = id;
+  document.getElementById('quote-print-modal').classList.add('open');
+}
+
+function printQuoteDoc() {
+  const body = document.getElementById('quote-print-body')?.innerHTML || '';
+  const win = window.open('', '_blank', 'width=850,height=1100');
+  win.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>body{margin:0;padding:0;font-family:Heebo,Arial,sans-serif;direction:rtl}@media print{body{margin:0}}</style>
+    </head><body>${body}</body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 800);
+}
+function downloadAndEmailQuoteDoc() {
+  const btn = document.getElementById('qpm-dl-btn');
+  const id  = btn?.dataset?.qid || document.getElementById('qpm-email-btn')?.dataset?.qid;
+  // fallback: get id from title context
+  const realId = (() => {
+    const all = ['qpm-dl-btn'];
+    for (const bid of all) {
+      const b = document.getElementById(bid);
+      if (b?.dataset?.qid) return b.dataset.qid;
+    }
+    return null;
+  })();
+  const q = quotes.find(x => x.id === (btn?.dataset?.qid));
+  if (!q) { alert('לא נמצאה הצעת מחיר'); return; }
+
+  const typeHeb  = q.type === 'order' ? 'הזמנה' : 'הצעת מחיר';
+  const toEmail  = q.customerEmail || '';
+  const subject  = encodeURIComponent(typeHeb + ' מספר ' + (q.docNum||'') + ' — ' + SOLAN_INFO.name);
+  const mailBody = encodeURIComponent('שלום ' + (q.customer||'') + ',\n\nמצורפת ' + typeHeb + ' מספר ' + (q.docNum||'') + '.\n\nבברכה,\n' + SOLAN_INFO.name);
+
+  if (!window.html2canvas || !window.jspdf) {
+    // Fallback: just open email + show print dialog
+    location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + mailBody;
+    setTimeout(printQuoteDoc, 600);
+    return;
+  }
+
+  const origText = btn.innerHTML;
+  btn.innerHTML  = '⏳ מכין...';
+  btn.disabled   = true;
+
+  const bodyEl = document.getElementById('quote-print-body');
+  html2canvas(bodyEl, { scale: 2, useCORS: true, backgroundColor: '#fff' }).then(canvas => {
+    const { jsPDF } = window.jspdf;
+    const pdf   = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const imgW  = 210, pageH = 297;
+    const imgH  = (canvas.height * imgW) / canvas.width;
+    const data  = canvas.toDataURL('image/jpeg', 0.92);
+    let y = 0;
+    while (y < imgH) {
+      if (y > 0) pdf.addPage();
+      pdf.addImage(data, 'JPEG', 0, -y, imgW, imgH);
+      y += pageH;
+    }
+    pdf.save(typeHeb + '-' + (q.docNum||'') + '.pdf');
+    // Open email after short delay
+    setTimeout(() => {
+      location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + mailBody;
+      showToast('הקובץ הורד — צרף אותו לאימייל שנפתח');
+    }, 800);
+  }).catch(() => {
+    location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + mailBody;
+  }).finally(() => {
+    btn.innerHTML = origText;
+    btn.disabled  = false;
+  });
+}
+function openCustomersModal() {
+  renderCustomersList();
+  document.getElementById('customers-modal').classList.add('open');
+}
+
+function openAddCustomerForm(id) {
+  _customerEditId = id || null;
+  const form = document.getElementById('customer-form');
+  const title = document.getElementById('customer-form-title');
+  if (id) {
+    const c = customers.find(x => x.id === id);
+    if (c) {
+      document.getElementById('cf-name').value = c.name || '';
+      document.getElementById('cf-email').value = c.email || '';
+      document.getElementById('cf-phone').value = c.phone || '';
+      document.getElementById('cf-address').value = c.address || '';
+      document.getElementById('cf-id').value = c.id;
+      title.textContent = 'עריכת לקוח';
+    }
+  } else {
+    ['cf-name','cf-email','cf-phone','cf-address'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('cf-id').value = '';
+    title.textContent = 'לקוח חדש';
+  }
+  form.style.display = 'block';
+  document.getElementById('cf-name').focus();
+}
+
+function saveCustomer() {
+  const name = document.getElementById('cf-name').value.trim();
+  if (!name) { alert('חסר שם לקוח'); return; }
+  const id = document.getElementById('cf-id').value || ('c_' + Date.now());
+  const data = {
+    id, name,
+    email: document.getElementById('cf-email').value.trim(),
+    phone: document.getElementById('cf-phone').value.trim(),
+    address: document.getElementById('cf-address').value.trim()
+  };
+  const idx = customers.findIndex(c => c.id === id);
+  if (idx >= 0) customers[idx] = data; else customers.push(data);
+  persist();
+  document.getElementById('customer-form').style.display = 'none';
+  renderCustomersList();
+  showToast('✅ לקוח נשמר');
+}
+
+function deleteCustomer(id) {
+  if (!confirm('למחוק לקוח זה?')) return;
+  customers = customers.filter(c => c.id !== id);
+  persist();
+  renderCustomersList();
+}
+
+function renderCustomersList() {
+  const el = document.getElementById('customers-list-body');
+  if (!el) return;
+  if (!customers.length) {
+    el.innerHTML = '<div style="text-align:center;color:#aaa;padding:30px 0;font-size:.9rem">אין לקוחות עדיין. הוסף לקוח חדש או ייבא מאקסל.</div>';
+    return;
+  }
+  el.innerHTML = customers.map(c => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:7px">
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.9rem">${c.name}</div>
+        <div style="font-size:.76rem;color:#888;margin-top:2px">${[c.email,c.phone,c.address].filter(Boolean).join(' · ')}</div>
+      </div>
+      <button onclick="openAddCustomerForm('${c.id}')" style="background:none;border:1px solid #c8d0f0;border-radius:6px;padding:4px 9px;font-size:.78rem;cursor:pointer;color:var(--press)">✏️</button>
+      <button onclick="deleteCustomer('${c.id}')" style="background:none;border:1px solid #e0a0a0;border-radius:6px;padding:4px 9px;font-size:.78rem;cursor:pointer;color:#c0392b">🗑️</button>
+    </div>`).join('');
+}
+
+function importCustomersFromExcel(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      let rows = [];
+      if (file.name.endsWith('.csv')) {
+        // CSV fallback
+        const text = new TextDecoder('utf-8').decode(e.target.result);
+        rows = text.split('\n').map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g,'')));
+      } else {
+        const wb = XLSX.read(e.target.result, { type: 'array' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      }
+      if (!rows.length) { showToast('⚠️ לא נמצאו נתונים'); return; }
+      // detect header row: look for שם/name in first row
+      let dataRows = rows;
+      const firstRow = (rows[0]||[]).map(c => String(c||'').toLowerCase());
+      const hasHeader = firstRow.some(c => /שם|name|לקוח|customer/.test(c));
+      if (hasHeader) dataRows = rows.slice(1);
+
+      // map columns: try to find name, email, phone, address
+      const hdrs = hasHeader ? firstRow : ['שם','מייל','טלפון','כתובת'];
+      const nameIdx    = hdrs.findIndex(h => /שם|name|לקוח|customer/.test(h));
+      const emailIdx   = hdrs.findIndex(h => /mail|מייל|אימייל/.test(h));
+      const phoneIdx   = hdrs.findIndex(h => /phone|טלפון|נייד/.test(h));
+      const addressIdx = hdrs.findIndex(h => /address|כתובת/.test(h));
+
+      let added = 0;
+      dataRows.forEach(row => {
+        const name = String(row[nameIdx >= 0 ? nameIdx : 0] || '').trim();
+        if (!name) return;
+        const existing = customers.find(c => c.name === name);
+        if (existing) return; // skip duplicates
+        customers.push({
+          id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+          name,
+          email:   emailIdx   >= 0 ? String(row[emailIdx]   || '').trim() : '',
+          phone:   phoneIdx   >= 0 ? String(row[phoneIdx]   || '').trim() : '',
+          address: addressIdx >= 0 ? String(row[addressIdx] || '').trim() : ''
+        });
+        added++;
+      });
+      persist();
+      renderCustomersList();
+      showToast(`✅ יובאו ${added} לקוחות`);
+    } catch(err) {
+      showToast('⚠️ שגיאה בקריאת הקובץ');
+      console.error(err);
+    }
+    input.value = '';
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ========== FIREBASE LISTENERS ==========
+function connectFirebase() {
+  const cfg = localStorage.getItem('solanFBConfig');
+  if (!cfg) return;
+  try {
+    const parsed = JSON.parse(cfg);
+    window._fbInit(parsed);
+    setupFBListeners();
+    updateFBStatus(true);
+    _fbConnected = true;
+  } catch(e) {
+    console.warn('Firebase connect error:', e);
+    updateFBStatus(false);
+  }
+}
+function setupFBListeners() {
+  if (!window._fbDB) return;
+  window._fbOnValue(window._fbRef(window._fbDB,'cards'), snap => {
+    const v = snap.val();
+    if (v === null) {
+      if (cards.length) window._fbSet(window._fbRef(window._fbDB,'cards'), cards);
+      return;
+    }
+    cards = Array.isArray(v) ? v : Object.values(v);
+    localStorage.setItem('solanCards', JSON.stringify(cards));
+    updateBadge();
+    if (document.getElementById('view-saved').style.display!=='none') renderCards();
+    if (document.getElementById('view-week').style.display!=='none')  renderWeek();
+  });
+  window._fbOnValue(window._fbRef(window._fbDB,'newspapers'), snap => {
+    const v = snap.val();
+    if (v === null) {
+      if (newspapers.length) window._fbSet(window._fbRef(window._fbDB,'newspapers'), newspapers);
+      return;
+    }
+    newspapers = Array.isArray(v) ? v : Object.values(v);
+    localStorage.setItem('solanNewspapers', JSON.stringify(newspapers));
+    if (document.getElementById('view-papers').style.display!=='none') renderPaperMgmt();
+    if (document.getElementById('view-week').style.display!=='none')   renderWeek();
+  });
+  window._fbOnValue(window._fbRef(window._fbDB,'inventory'), snap => {
+    const v = snap.val();
+    if (v === null) {
+      if (inventory.length) window._fbSet(window._fbRef(window._fbDB,'inventory'), inventory);
+      return;
+    }
+    const incoming = Array.isArray(v) ? v : Object.values(v);
+    const localStr = JSON.stringify(inventory);
+    const incomingStr = JSON.stringify(incoming);
+    if (localStr !== incomingStr) {
+      inventory = incoming;
+      localStorage.setItem('solanInventory', JSON.stringify(inventory));
+    }
+    if (document.getElementById('view-inventory').style.display!=='none') renderInventory();
+  });
+  window._fbOnValue(window._fbRef(window._fbDB,'invoiceLogs'), snap => {
+    const v = snap.val();
+    if (v === null) {
+      if (invoiceLogs.length) window._fbSet(window._fbRef(window._fbDB,'invoiceLogs'), invoiceLogs);
+      return;
+    }
+    invoiceLogs = Array.isArray(v) ? v : Object.values(v);
+    localStorage.setItem('solanInvoiceLogs', JSON.stringify(invoiceLogs));
+    if (document.getElementById('inv-section-logs')?.style.display!=='none') renderInvoiceLogs();
+  });
+  window._fbOnValue(window._fbRef(window._fbDB,'inventoryPress'), snap => {
+    const v = snap.val();
+    if (v === null) {
+      if (inventoryPress.length) window._fbSet(window._fbRef(window._fbDB,'inventoryPress'), inventoryPress);
+      return;
+    }
+    inventoryPress = Array.isArray(v) ? v : Object.values(v);
+    localStorage.setItem('solanInventoryPress', JSON.stringify(inventoryPress));
+    if (document.getElementById('view-inventory').style.display!=='none') renderInventory();
+  });
+}
+
+// ===== ניקוי ומיזוג כפילויות 171 — רץ אחרי כל טעינת Firebase =====
+function cleanupDoc171Once() {
+  let changed = false;
+  inventory.forEach(item => {
+    const invs = item.invoices || [];
+
+    // שלב 1: העבר inv שמתחיל ב-171 ל-orderNum
+    invs.forEach(entry => {
+      if (String(entry.inv||'').startsWith('171')) {
+        if (!entry.orderNum) entry.orderNum = entry.inv;
+        entry.inv = '';
+        changed = true;
+      }
+    });
+
+    // שלב 2: מזג זוגות עם אותו תאריך ואותה כמות
+    const merged = [];
+    const used = new Set();
+    invs.forEach((a, ai) => {
+      if (used.has(ai)) return;
+      // חפש שותף: אותו תאריך, אחד עם inv בלבד ואחד עם orderNum בלבד
+      let bi = -1;
+      for (let k = 0; k < invs.length; k++) {
+        if (k === ai || used.has(k)) continue;
+        const b = invs[k];
+        if (b.date === a.date) { bi = k; break; }
+      }
+      if (bi >= 0) {
+        const b = invs[bi];
+        const combined = {
+          date:     a.date || b.date,
+          inv:      a.inv || b.inv || '',
+          orderNum: a.orderNum || b.orderNum || '',
+          qty:      a.qty || b.qty || 0,
+          price:    a.price || b.price || 0
+        };
+        merged.push(combined);
+        used.add(ai);
+        used.add(bi);
+        changed = true;
+      } else {
+        merged.push(a);
+        used.add(ai);
+      }
+    });
+    item.invoices = merged;
+    item.qty = merged.reduce((s, x) => s + (x.qty||0), 0);
+  });
+
+  if (changed) {
+    persist();
+    setTimeout(() => renderInventory(), 300);
+    showToast('✅ כפילויות אוחדו');
+  } else {
+    showToast('אין כפילויות למיזוג');
+  }
+}
+
+function updateFBStatus(ok) {
+  const el = document.getElementById('fb-status');
+  if (!el) return;
+  el.style.display = 'inline-block';
+  el.textContent   = ok ? '🟢 מחובר' : '🔴 מנותק';
+  el.style.background = ok ? '#e8f5e9' : '#ffebee';
+  el.style.color      = ok ? '#2e7d32' : '#c62828';
+}
+
+// ========== INIT ==========
+updateBadge();
+renderWeek();
+connectFirebase();
+
+// שמור לוגו ב-localStorage לשימוש בהצעות מחיר
+if (!localStorage.getItem('solanLogo')) {
+  localStorage.setItem('solanLogo', 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAJYAlgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDx/xt8RNf0LxffabZSW4t4fL2B4gx5jVjz9SawP+Ft+Kv8Anta/9+BVP4n/APJRdV/7Y/8AopK5GvUp0oOCbXQ8upVmptJ9Tuv+Ft+Kv+e1r');
+}
+
+</script>
+</body>
+</html>
